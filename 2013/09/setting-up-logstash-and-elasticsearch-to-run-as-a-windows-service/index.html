@@ -13,44 +13,44 @@
 	<meta name="viewport" content="width=device-width">
 	<title>Setting up logstash and elasticsearch to run as a Windows Service | Trajano</title>
 	<link rel="profile" href="http://gmpg.org/xfn/11">
-	<link rel="pingback" href="http://www.trajano.net/xmlrpc.php">
+	<link rel="pingback" href="../../../xmlrpc.php">
 	<!--[if lt IE 9]>
 	<script src="http://www.trajano.net/wp-content/themes/twentyfourteen/js/html5.js"></script>
 	<![endif]-->
-	<link rel="alternate" type="application/rss+xml" title="Trajano &raquo; Feed" href="http://www.trajano.net/feed/" />
+	<link rel="alternate" type="application/rss+xml" title="Trajano &raquo; Feed" href="../../../feed/index.html" />
 <link rel="alternate" type="application/rss+xml" title="Trajano &raquo; Comments Feed" href="http://www.trajano.net/comments/feed/" />
-<link rel="alternate" type="application/rss+xml" title="Trajano &raquo; Setting up logstash and elasticsearch to run as a Windows Service Comments Feed" href="http://www.trajano.net/2013/09/setting-up-logstash-and-elasticsearch-to-run-as-a-windows-service/feed/" />
-<link rel='stylesheet' id='crayon-css'  href='http://www.trajano.net/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=2.4.3' type='text/css' media='all' />
-<link rel='stylesheet' id='crayon-theme-classic-css'  href='http://www.trajano.net/wp-content/plugins/crayon-syntax-highlighter/themes/classic/classic.css?ver=2.4.3' type='text/css' media='all' />
-<link rel='stylesheet' id='crayon-font-consolas-css'  href='http://www.trajano.net/wp-content/plugins/crayon-syntax-highlighter/fonts/consolas.css?ver=2.4.3' type='text/css' media='all' />
-<link rel='stylesheet' id='twentyfourteen-lato-css'  href='//fonts.googleapis.com/css?family=Lato%3A300%2C400%2C700%2C900%2C300italic%2C400italic%2C700italic' type='text/css' media='all' />
-<link rel='stylesheet' id='genericons-css'  href='http://www.trajano.net/wp-content/themes/twentyfourteen/genericons/genericons.css?ver=3.0.2' type='text/css' media='all' />
-<link rel='stylesheet' id='twentyfourteen-style-css'  href='http://www.trajano.net/wp-content/themes/twentyfourteen/style.css?ver=3.8.1' type='text/css' media='all' />
+<link rel="alternate" type="application/rss+xml" title="Trajano &raquo; Setting up logstash and elasticsearch to run as a Windows Service Comments Feed" href="feed/index.html" />
+<link rel='stylesheet' id='crayon-css'  href='../../../wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css@ver=2.4.3' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-classic-css'  href='../../../wp-content/plugins/crayon-syntax-highlighter/themes/classic/classic.css@ver=2.4.3' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-consolas-css'  href='../../../wp-content/plugins/crayon-syntax-highlighter/fonts/consolas.css@ver=2.4.3' type='text/css' media='all' />
+<link rel='stylesheet' id='twentyfourteen-lato-css'  href='http://fonts.googleapis.com/css?family=Lato%3A300%2C400%2C700%2C900%2C300italic%2C400italic%2C700italic' type='text/css' media='all' />
+<link rel='stylesheet' id='genericons-css'  href='../../../wp-content/themes/twentyfourteen/genericons/genericons.css@ver=3.0.2' type='text/css' media='all' />
+<link rel='stylesheet' id='twentyfourteen-style-css'  href='../../../wp-content/themes/twentyfourteen/style.css@ver=3.8.1' type='text/css' media='all' />
 <!--[if lt IE 9]>
 <link rel='stylesheet' id='twentyfourteen-ie-css'  href='http://www.trajano.net/wp-content/themes/twentyfourteen/css/ie.css?ver=20131205' type='text/css' media='all' />
 <![endif]-->
 <script type='text/javascript' src='http://www.trajano.net/wp-includes/js/jquery/jquery.js?ver=1.10.2'></script>
 <script type='text/javascript' src='http://www.trajano.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
-<script type='text/javascript' src='http://www.trajano.net/wp-content/plugins/amazon-product-in-a-post-plugin/js/amazon-lightbox.js?ver=3.8.1'></script>
+<script type='text/javascript' src='../../../wp-content/plugins/amazon-product-in-a-post-plugin/js/amazon-lightbox.js@ver=3.8.1'></script>
 <script type='text/javascript'>
 /* <![CDATA[ */
 var CrayonSyntaxSettings = {"version":"2.4.3","is_admin":"0","ajaxurl":"http:\/\/www.trajano.net\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
 var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
 /* ]]> */
 </script>
-<script type='text/javascript' src='http://www.trajano.net/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js?ver=2.4.3'></script>
+<script type='text/javascript' src='../../../wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js@ver=2.4.3'></script>
 <script type='text/javascript' src='http://www.trajano.net/wp-includes/js/comment-reply.min.js?ver=3.8.1'></script>
-<script type='text/javascript' src='http://www.trajano.net/wp-content/plugins/google-analyticator/external-tracking.min.js?ver=6.4.7.3'></script>
-<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.trajano.net/xmlrpc.php?rsd" />
+<script type='text/javascript' src='../../../wp-content/plugins/google-analyticator/external-tracking.min.js@ver=6.4.7.3'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../../xmlrpc.php@rsd" />
 <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.trajano.net/wp-includes/wlwmanifest.xml" /> 
-<link rel='prev' title='Choosing an Enterprise Linux' href='http://www.trajano.net/2013/08/choosing-an-enterprise-linux/' />
-<link rel='next' title='Changing the user for Curam Server Test' href='http://www.trajano.net/2013/10/changing-the-user-for-curam-server-test/' />
+<link rel='prev' title='Choosing an Enterprise Linux' href='../../08/choosing-an-enterprise-linux/index.html' />
+<link rel='next' title='Changing the user for Curam Server Test' href='../../10/changing-the-user-for-curam-server-test/index.html' />
 <meta name="generator" content="WordPress 3.8.1" />
-<link rel='canonical' href='http://www.trajano.net/2013/09/setting-up-logstash-and-elasticsearch-to-run-as-a-windows-service/' />
-<link rel='shortlink' href='http://www.trajano.net/?p=12' />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='index.html' />
 <!-- Amazon Product In a Post Plugin Styles & Scripts - Version 3.5.2 -->
-<link rel="stylesheet" href="http://www.trajano.net/index.php?apipp_style=default" type="text/css" media="screen" />
-<link rel="stylesheet" href="http://www.trajano.net/wp-content/plugins/amazon-product-in-a-post-plugin/css/amazon-lightbox.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../index.php@apipp_style=default" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../wp-content/plugins/amazon-product-in-a-post-plugin/css/amazon-lightbox.css" type="text/css" media="screen" />
 <!-- End Amazon Product In a Post Plugin Styles & Scripts-->
 	<style type="text/css" id="twentyfourteen-header-css">
 			.site-title,
@@ -85,29 +85,29 @@ body.custom-background { background-color: #f5f5f5; }
 <body class="single single-post postid-12 single-format-standard custom-background header-image singular">
 <div id="page" class="hfeed site">
 		<div id="site-header">
-		<a href="http://www.trajano.net/" rel="home">
-			<img src="http://www.trajano.net/wp-content/uploads/2014/01/logo-blog-twentyfourteen1.png" width="1260" height="120" alt="">
+		<a href="../../../index.html" rel="home">
+			<img src="../../../wp-content/uploads/2014/01/logo-blog-twentyfourteen1.png" width="1260" height="120" alt="">
 		</a>
 	</div>
 	
 	<header id="masthead" class="site-header" role="banner">
 		<div class="header-main">
-			<h1 class="site-title"><a href="http://www.trajano.net/" rel="home">Trajano</a></h1>
+			<h1 class="site-title"><a href="../../../index.html" rel="home">Trajano</a></h1>
 
 			<div class="search-toggle">
-				<a href="#search-container" class="screen-reader-text">Search</a>
+				<a href="index.html#search-container" class="screen-reader-text">Search</a>
 			</div>
 
 			<nav id="primary-navigation" class="site-navigation primary-navigation" role="navigation">
 				<h1 class="menu-toggle">Primary Menu</h1>
-				<a class="screen-reader-text skip-link" href="#content">Skip to content</a>
-				<div class="nav-menu"><ul><li class="page_item page-item-2"><a href="http://www.trajano.net/sample-page/">Rebuild status</a></li></ul></div>
+				<a class="screen-reader-text skip-link" href="index.html#content">Skip to content</a>
+				<div class="nav-menu"><ul><li class="page_item page-item-2"><a href="../../../sample-page/index.html">Rebuild status</a></li></ul></div>
 			</nav>
 		</div>
 
 		<div id="search-container" class="search-box-wrapper hide">
 			<div class="search-box">
-				<form role="search" method="get" class="search-form" action="http://www.trajano.net/">
+				<form role="search" method="get" class="search-form" action="../../../index.html">
 				<label>
 					<span class="screen-reader-text">Search for:</span>
 					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" title="Search for:" />
@@ -126,11 +126,11 @@ body.custom-background { background-color: #f5f5f5; }
 	
 	<header class="entry-header">
 				<div class="entry-meta">
-			<span class="cat-links"><a href="http://www.trajano.net/category/techie/" title="View all posts in Techie" rel="category tag">Techie</a></span>
+			<span class="cat-links"><a href="../../../category/techie/index.html" title="View all posts in Techie" rel="category tag">Techie</a></span>
 		</div>
 		<h1 class="entry-title">Setting up logstash and elasticsearch to run as a Windows Service</h1>
 		<div class="entry-meta">
-			<span class="entry-date"><a href="http://www.trajano.net/2013/09/setting-up-logstash-and-elasticsearch-to-run-as-a-windows-service/" rel="bookmark"><time class="entry-date" datetime="2013-09-16T14:20:11+00:00">September 16, 2013</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="http://www.trajano.net/author/trajano/" rel="author">trajano</a></span></span>			<span class="comments-link"><a href="http://www.trajano.net/2013/09/setting-up-logstash-and-elasticsearch-to-run-as-a-windows-service/#respond" title="Comment on Setting up logstash and elasticsearch to run as a Windows Service"><span class="dsq-postid" rel="12 http://www.trajano.net/?p=12">Leave a comment</span></a></span>
+			<span class="entry-date"><a href="index.html" rel="bookmark"><time class="entry-date" datetime="2013-09-16T14:20:11+00:00">September 16, 2013</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="../../../author/trajano/index.html" rel="author">trajano</a></span></span>			<span class="comments-link"><a href="index.html#respond" title="Comment on Setting up logstash and elasticsearch to run as a Windows Service"><span class="dsq-postid" rel="12 http://www.trajano.net/?p=12">Leave a comment</span></a></span>
 					</div><!-- .entry-meta -->
 	</header><!-- .entry-header -->
 
@@ -142,7 +142,7 @@ body.custom-background { background-color: #f5f5f5; }
 <p>I create a YAJSW folder for every service I am going to make, in my case C:\opt\yajsw-elasticsearch for elasticsearch and c:\opt\yajsw-logstash for logstash.  Not sure if it is possible to avoid this, but this was the most expedient way to solve my issue.</p>
 <p>Once I find the app, I note the PID and go to the command line where I put in the YAJSW files.</p><!-- Crayon Syntax Highlighter v2.4.3 -->
 
-		<div id="crayon-52f6cf4772e85753241929" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
+		<div id="crayon-52f6d01fbb97c178828947" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
 		
 			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
 			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
@@ -154,9 +154,9 @@ genConfig.bat &lt;pid&gt;</textarea></div>
 				<table class="crayon-table">
 					<tr class="crayon-row">
 				<td class="crayon-nums " data-settings="show">
-					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6cf4772e85753241929-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6cf4772e85753241929-2">2</div></div>
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6d01fbb97c178828947-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6d01fbb97c178828947-2">2</div></div>
 				</td>
-						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6cf4772e85753241929-1"><span class="crayon-i">cd</span><span class="crayon-h"> </span><span class="crayon-i">c</span><span class="crayon-o">:</span><span class="crayon-sy">\</span><span class="crayon-i">opt</span><span class="crayon-sy">\</span><span class="crayon-i">yajsw</span><span class="crayon-sy">\</span><span class="crayon-e">bat</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6cf4772e85753241929-2"><span class="crayon-v">genConfig</span><span class="crayon-sy">.</span><span class="crayon-i">bat</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-i">pid</span><span class="crayon-o">&gt;</span></div></div></td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6d01fbb97c178828947-1"><span class="crayon-i">cd</span><span class="crayon-h"> </span><span class="crayon-i">c</span><span class="crayon-o">:</span><span class="crayon-sy">\</span><span class="crayon-i">opt</span><span class="crayon-sy">\</span><span class="crayon-i">yajsw</span><span class="crayon-sy">\</span><span class="crayon-e">bat</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6d01fbb97c178828947-2"><span class="crayon-v">genConfig</span><span class="crayon-sy">.</span><span class="crayon-i">bat</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-i">pid</span><span class="crayon-o">&gt;</span></div></div></td>
 					</tr>
 				</table>
 			</div>
@@ -164,7 +164,7 @@ genConfig.bat &lt;pid&gt;</textarea></div>
 <!-- [Format Time: 0.0006 seconds] -->
 <p>I make few changes to the configuration</p><!-- Crayon Syntax Highlighter v2.4.3 -->
 
-		<div id="crayon-52f6cf4772ea5436655548" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
+		<div id="crayon-52f6d01fbb98a757617897" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
 		
 			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
 			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
@@ -180,17 +180,17 @@ wrapper.ntservice.description=elasticsearch</textarea></div>
 				<table class="crayon-table">
 					<tr class="crayon-row">
 				<td class="crayon-nums " data-settings="show">
-					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6cf4772ea5436655548-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6cf4772ea5436655548-2">2</div><div class="crayon-num" data-line="crayon-52f6cf4772ea5436655548-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6cf4772ea5436655548-4">4</div><div class="crayon-num" data-line="crayon-52f6cf4772ea5436655548-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6cf4772ea5436655548-6">6</div></div>
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6d01fbb98a757617897-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6d01fbb98a757617897-2">2</div><div class="crayon-num" data-line="crayon-52f6d01fbb98a757617897-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6d01fbb98a757617897-4">4</div><div class="crayon-num" data-line="crayon-52f6d01fbb98a757617897-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6d01fbb98a757617897-6">6</div></div>
 				</td>
-						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6cf4772ea5436655548-1"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">app</span><span class="crayon-sy">.</span><span class="crayon-v">env</span><span class="crayon-sy">.</span><span class="crayon-v">HOME</span><span class="crayon-o">=</span><span class="crayon-i">C</span><span class="crayon-o">:</span><span class="crayon-o">/</span><span class="crayon-i">opt</span><span class="crayon-o">/</span><span class="crayon-i">logstash</span><span class="crayon-o">/</span><span class="crayon-e">sincedb</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6cf4772ea5436655548-2"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">tray</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">false</span></div><div class="crayon-line" id="crayon-52f6cf4772ea5436655548-3"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">console</span><span class="crayon-sy">.</span><span class="crayon-v">title</span><span class="crayon-o">=</span><span class="crayon-e">elasticsearch</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6cf4772ea5436655548-4"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">name</span><span class="crayon-o">=</span><span class="crayon-e">elasticsearch</span></div><div class="crayon-line" id="crayon-52f6cf4772ea5436655548-5"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">displayname</span><span class="crayon-o">=</span><span class="crayon-e">elasticsearch</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6cf4772ea5436655548-6"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">description</span><span class="crayon-o">=</span><span class="crayon-i">elasticsearch</span></div></div></td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6d01fbb98a757617897-1"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">app</span><span class="crayon-sy">.</span><span class="crayon-v">env</span><span class="crayon-sy">.</span><span class="crayon-v">HOME</span><span class="crayon-o">=</span><span class="crayon-i">C</span><span class="crayon-o">:</span><span class="crayon-o">/</span><span class="crayon-i">opt</span><span class="crayon-o">/</span><span class="crayon-i">logstash</span><span class="crayon-o">/</span><span class="crayon-e">sincedb</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6d01fbb98a757617897-2"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">tray</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">false</span></div><div class="crayon-line" id="crayon-52f6d01fbb98a757617897-3"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">console</span><span class="crayon-sy">.</span><span class="crayon-v">title</span><span class="crayon-o">=</span><span class="crayon-e">elasticsearch</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6d01fbb98a757617897-4"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">name</span><span class="crayon-o">=</span><span class="crayon-e">elasticsearch</span></div><div class="crayon-line" id="crayon-52f6d01fbb98a757617897-5"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">displayname</span><span class="crayon-o">=</span><span class="crayon-e">elasticsearch</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6d01fbb98a757617897-6"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">description</span><span class="crayon-o">=</span><span class="crayon-i">elasticsearch</span></div></div></td>
 					</tr>
 				</table>
 			</div>
 		</div>
-<!-- [Format Time: 0.0011 seconds] -->
+<!-- [Format Time: 0.0014 seconds] -->
 <p>Then install the service.</p><!-- Crayon Syntax Highlighter v2.4.3 -->
 
-		<div id="crayon-52f6cf4772ec0489854151" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
+		<div id="crayon-52f6d01fbb992471227276" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
 		
 			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
 			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
@@ -201,19 +201,19 @@ installService.bat</textarea></div>
 				<table class="crayon-table">
 					<tr class="crayon-row">
 				<td class="crayon-nums " data-settings="show">
-					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6cf4772ec0489854151-1">1</div></div>
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6d01fbb992471227276-1">1</div></div>
 				</td>
-						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6cf4772ec0489854151-1"><span class="crayon-v">installService</span><span class="crayon-sy">.</span><span class="crayon-i">bat</span></div></div></td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6d01fbb992471227276-1"><span class="crayon-v">installService</span><span class="crayon-sy">.</span><span class="crayon-i">bat</span></div></div></td>
 					</tr>
 				</table>
 			</div>
 		</div>
-<!-- [Format Time: 0.0003 seconds] -->
+<!-- [Format Time: 0.0002 seconds] -->
 <p>I then start Service Manager and locate org.elasticsearch.bootstrap.ElasticSearch and start it.</p>
 <p>I then test after a minute by going to http://localhost:9200/</p>
 <p>For logstash, I do the same process except I have to make a few other changes to the wrapper.conf file namely</p><!-- Crayon Syntax Highlighter v2.4.3 -->
 
-		<div id="crayon-52f6cf4772ed9560575907" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
+		<div id="crayon-52f6d01fbb99b575343247" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
 		
 			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
 			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
@@ -231,9 +231,9 @@ wrapper.ntservice.dependency.1=elasticsearch</textarea></div>
 				<table class="crayon-table">
 					<tr class="crayon-row">
 				<td class="crayon-nums " data-settings="show">
-					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6cf4772ed9560575907-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6cf4772ed9560575907-2">2</div><div class="crayon-num" data-line="crayon-52f6cf4772ed9560575907-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6cf4772ed9560575907-4">4</div><div class="crayon-num" data-line="crayon-52f6cf4772ed9560575907-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6cf4772ed9560575907-6">6</div><div class="crayon-num" data-line="crayon-52f6cf4772ed9560575907-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6cf4772ed9560575907-8">8</div></div>
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6d01fbb99b575343247-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6d01fbb99b575343247-2">2</div><div class="crayon-num" data-line="crayon-52f6d01fbb99b575343247-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6d01fbb99b575343247-4">4</div><div class="crayon-num" data-line="crayon-52f6d01fbb99b575343247-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6d01fbb99b575343247-6">6</div><div class="crayon-num" data-line="crayon-52f6d01fbb99b575343247-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-52f6d01fbb99b575343247-8">8</div></div>
 				</td>
-						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6cf4772ed9560575907-1"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">app</span><span class="crayon-sy">.</span><span class="crayon-v">env</span><span class="crayon-sy">.</span><span class="crayon-v">HOME</span><span class="crayon-o">=</span><span class="crayon-i">C</span><span class="crayon-o">:</span><span class="crayon-o">/</span><span class="crayon-i">opt</span><span class="crayon-o">/</span><span class="crayon-i">logstash</span><span class="crayon-o">/</span><span class="crayon-e">sincedb</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6cf4772ed9560575907-2"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">java</span><span class="crayon-sy">.</span><span class="crayon-v">maxmemory</span><span class="crayon-o">=</span><span class="crayon-cn">128</span></div><div class="crayon-line" id="crayon-52f6cf4772ed9560575907-3"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">tray</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">false</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6cf4772ed9560575907-4"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">console</span><span class="crayon-sy">.</span><span class="crayon-v">title</span><span class="crayon-o">=</span><span class="crayon-e">logstash</span></div><div class="crayon-line" id="crayon-52f6cf4772ed9560575907-5"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">name</span><span class="crayon-o">=</span><span class="crayon-e">logstash</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6cf4772ed9560575907-6"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">displayname</span><span class="crayon-o">=</span><span class="crayon-e">logstash</span></div><div class="crayon-line" id="crayon-52f6cf4772ed9560575907-7"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">description</span><span class="crayon-o">=</span><span class="crayon-e">logstash</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6cf4772ed9560575907-8"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">dependency</span><span class="crayon-sy">.</span><span class="crayon-cn">1</span><span class="crayon-o">=</span><span class="crayon-i">elasticsearch</span></div></div></td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6d01fbb99b575343247-1"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">app</span><span class="crayon-sy">.</span><span class="crayon-v">env</span><span class="crayon-sy">.</span><span class="crayon-v">HOME</span><span class="crayon-o">=</span><span class="crayon-i">C</span><span class="crayon-o">:</span><span class="crayon-o">/</span><span class="crayon-i">opt</span><span class="crayon-o">/</span><span class="crayon-i">logstash</span><span class="crayon-o">/</span><span class="crayon-e">sincedb</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6d01fbb99b575343247-2"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">java</span><span class="crayon-sy">.</span><span class="crayon-v">maxmemory</span><span class="crayon-o">=</span><span class="crayon-cn">128</span></div><div class="crayon-line" id="crayon-52f6d01fbb99b575343247-3"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">tray</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">false</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6d01fbb99b575343247-4"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">console</span><span class="crayon-sy">.</span><span class="crayon-v">title</span><span class="crayon-o">=</span><span class="crayon-e">logstash</span></div><div class="crayon-line" id="crayon-52f6d01fbb99b575343247-5"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">name</span><span class="crayon-o">=</span><span class="crayon-e">logstash</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6d01fbb99b575343247-6"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">displayname</span><span class="crayon-o">=</span><span class="crayon-e">logstash</span></div><div class="crayon-line" id="crayon-52f6d01fbb99b575343247-7"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">description</span><span class="crayon-o">=</span><span class="crayon-e">logstash</span></div><div class="crayon-line crayon-striped-line" id="crayon-52f6d01fbb99b575343247-8"><span class="crayon-v">wrapper</span><span class="crayon-sy">.</span><span class="crayon-v">ntservice</span><span class="crayon-sy">.</span><span class="crayon-v">dependency</span><span class="crayon-sy">.</span><span class="crayon-cn">1</span><span class="crayon-o">=</span><span class="crayon-i">elasticsearch</span></div></div></td>
 					</tr>
 				</table>
 			</div>
@@ -242,11 +242,11 @@ wrapper.ntservice.dependency.1=elasticsearch</textarea></div>
 <p></p>
 	</div><!-- .entry-content -->
 	
-	<footer class="entry-meta"><span class="tag-links"><a href="http://www.trajano.net/tag/elasticsearch/" rel="tag">elasticsearch</a><a href="http://www.trajano.net/tag/logstash/" rel="tag">logstash</a><a href="http://www.trajano.net/tag/windows/" rel="tag">windows</a></span></footer></article><!-- #post-## -->
+	<footer class="entry-meta"><span class="tag-links"><a href="../../../tag/elasticsearch/index.html" rel="tag">elasticsearch</a><a href="../../../tag/logstash/index.html" rel="tag">logstash</a><a href="../../../tag/windows/index.html" rel="tag">windows</a></span></footer></article><!-- #post-## -->
 	<nav class="navigation post-navigation" role="navigation">
 		<h1 class="screen-reader-text">Post navigation</h1>
 		<div class="nav-links">
-			<a href="http://www.trajano.net/2013/08/choosing-an-enterprise-linux/" rel="prev"><span class="meta-nav">Previous Post</span>Choosing an Enterprise Linux</a><a href="http://www.trajano.net/2013/10/changing-the-user-for-curam-server-test/" rel="next"><span class="meta-nav">Next Post</span>Changing the user for Curam Server Test</a>		</div><!-- .nav-links -->
+			<a href="../../08/choosing-an-enterprise-linux/index.html" rel="prev"><span class="meta-nav">Previous Post</span>Choosing an Enterprise Linux</a><a href="../../10/changing-the-user-for-curam-server-test/index.html" rel="next"><span class="meta-nav">Next Post</span>Changing the user for Curam Server Test</a>		</div><!-- .nav-links -->
 	</nav><!-- .navigation -->
 	
 <div id="disqus_thread">
@@ -317,7 +317,7 @@ wrapper.ntservice.dependency.1=elasticsearch</textarea></div>
 <p>If the job is for working anywhere in the GTA that is not telecommute my rate starts at $150/hr.</p>
 </div>
 		</aside><aside id="seed_glcse_widget-2" class="widget widget_seed_glcse_widget">		<div class="glcse-widget">
-		<form id="glcse-search-form" class="glcse-search" action="http://www.trajano.net" method="get">
+		<form id="glcse-search-form" class="glcse-search" action="../../../index.html" method="get">
         <input type="hidden" name="cref" value="http://www.trajano.net/?glcse=1" />
         <input type="hidden" name="cof" value="FORID:11" />
         <input type="hidden" name="ie" value="UTF-8" />
@@ -327,8 +327,8 @@ wrapper.ntservice.dependency.1=elasticsearch</textarea></div>
     	<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=glcse-search-form&lang=en"></script>
     	</div>
     	</aside><aside id="meta-3" class="widget widget_meta"><h1 class="widget-title">Meta</h1>			<ul>
-						<li><a href="http://www.trajano.net/wp-login.php">Log in</a></li>
-			<li><a href="http://www.trajano.net/feed/" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+						<li><a href="../../../wp-login.php">Log in</a></li>
+			<li><a href="../../../feed/index.html" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
 			<li><a href="http://trajano.disqus.com/latest.rss" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
 			<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>						</ul>
 </aside></div><!-- #content-sidebar -->
@@ -338,54 +338,54 @@ wrapper.ntservice.dependency.1=elasticsearch</textarea></div>
 	
 		<div id="primary-sidebar" class="primary-sidebar widget-area" role="complementary">
 		<aside id="categories-3" class="widget widget_categories"><h1 class="widget-title">Categories</h1>		<ul>
-	<li class="cat-item cat-item-26"><a href="http://www.trajano.net/category/anime/" title="View all posts filed under Anime">Anime</a> (1)
+	<li class="cat-item cat-item-26"><a href="../../../category/anime/index.html" title="View all posts filed under Anime">Anime</a> (1)
 </li>
-	<li class="cat-item cat-item-35"><a href="http://www.trajano.net/category/explaining-tech/" title="View all posts filed under Explaining Tech">Explaining Tech</a> (1)
+	<li class="cat-item cat-item-35"><a href="../../../category/explaining-tech/index.html" title="View all posts filed under Explaining Tech">Explaining Tech</a> (1)
 </li>
-	<li class="cat-item cat-item-25"><a href="http://www.trajano.net/category/gaming/" title="My other hobby, playing video games.">Gaming</a> (1)
+	<li class="cat-item cat-item-25"><a href="../../../category/gaming/index.html" title="My other hobby, playing video games.">Gaming</a> (1)
 </li>
-	<li class="cat-item cat-item-32"><a href="http://www.trajano.net/category/hmm/" title="Things that make me go hmm...">Hmm&#8230;</a> (3)
+	<li class="cat-item cat-item-32"><a href="../../../category/hmm/index.html" title="Things that make me go hmm...">Hmm&#8230;</a> (3)
 </li>
-	<li class="cat-item cat-item-6"><a href="http://www.trajano.net/category/programming/" title="Stuff about stringing ones and zeroes together to form something useful.  Contains some elaborations of the answers I post on Stack Overflow">Programming</a> (11)
+	<li class="cat-item cat-item-6"><a href="../../../category/programming/index.html" title="Stuff about stringing ones and zeroes together to form something useful.  Contains some elaborations of the answers I post on Stack Overflow">Programming</a> (11)
 </li>
-	<li class="cat-item cat-item-28"><a href="http://www.trajano.net/category/techie/" title="View all posts filed under Techie">Techie</a> (1)
+	<li class="cat-item cat-item-28"><a href="../../../category/techie/index.html" title="View all posts filed under Techie">Techie</a> (1)
 </li>
-	<li class="cat-item cat-item-1"><a href="http://www.trajano.net/category/uncategorized/" title="View all posts filed under Uncategorized">Uncategorized</a> (14)
+	<li class="cat-item cat-item-1"><a href="../../../category/uncategorized/index.html" title="View all posts filed under Uncategorized">Uncategorized</a> (14)
 </li>
 		</ul>
-</aside><aside id="tag_cloud-2" class="widget widget_tag_cloud"><h1 class="widget-title">Tags</h1><div class="tagcloud"><a href='http://www.trajano.net/tag/android/' class='tag-link-18' title='1 topic' style='font-size: 8pt;'>android</a>
-<a href='http://www.trajano.net/tag/ant/' class='tag-link-22' title='1 topic' style='font-size: 8pt;'>ant</a>
-<a href='http://www.trajano.net/tag/clearcase/' class='tag-link-23' title='1 topic' style='font-size: 8pt;'>clearcase</a>
-<a href='http://www.trajano.net/tag/cloud-computing/' class='tag-link-36' title='1 topic' style='font-size: 8pt;'>cloud computing</a>
-<a href='http://www.trajano.net/tag/curam/' class='tag-link-2' title='7 topics' style='font-size: 22pt;'>curam</a>
-<a href='http://www.trajano.net/tag/database/' class='tag-link-17' title='1 topic' style='font-size: 8pt;'>database</a>
-<a href='http://www.trajano.net/tag/eclipse/' class='tag-link-15' title='1 topic' style='font-size: 8pt;'>eclipse</a>
-<a href='http://www.trajano.net/tag/elasticsearch/' class='tag-link-29' title='1 topic' style='font-size: 8pt;'>elasticsearch</a>
-<a href='http://www.trajano.net/tag/ford-focus/' class='tag-link-41' title='1 topic' style='font-size: 8pt;'>ford focus</a>
-<a href='http://www.trajano.net/tag/httpunit/' class='tag-link-21' title='1 topic' style='font-size: 8pt;'>httpunit</a>
-<a href='http://www.trajano.net/tag/internet-explorer-6/' class='tag-link-8' title='1 topic' style='font-size: 8pt;'>internet explorer 6</a>
-<a href='http://www.trajano.net/tag/iphone/' class='tag-link-19' title='1 topic' style='font-size: 8pt;'>iphone</a>
-<a href='http://www.trajano.net/tag/java/' class='tag-link-10' title='2 topics' style='font-size: 12.2pt;'>java</a>
-<a href='http://www.trajano.net/tag/java-ee/' class='tag-link-11' title='1 topic' style='font-size: 8pt;'>java ee</a>
-<a href='http://www.trajano.net/tag/jax-ws/' class='tag-link-12' title='1 topic' style='font-size: 8pt;'>jax-ws</a>
-<a href='http://www.trajano.net/tag/logstash/' class='tag-link-30' title='1 topic' style='font-size: 8pt;'>logstash</a>
-<a href='http://www.trajano.net/tag/m2e/' class='tag-link-13' title='1 topic' style='font-size: 8pt;'>m2e</a>
-<a href='http://www.trajano.net/tag/maven/' class='tag-link-14' title='1 topic' style='font-size: 8pt;'>maven</a>
-<a href='http://www.trajano.net/tag/oracle/' class='tag-link-16' title='1 topic' style='font-size: 8pt;'>oracle</a>
-<a href='http://www.trajano.net/tag/rails/' class='tag-link-5' title='1 topic' style='font-size: 8pt;'>rails</a>
-<a href='http://www.trajano.net/tag/sakura-wars/' class='tag-link-27' title='1 topic' style='font-size: 8pt;'>sakura wars</a>
-<a href='http://www.trajano.net/tag/selenium/' class='tag-link-39' title='1 topic' style='font-size: 8pt;'>selenium</a>
-<a href='http://www.trajano.net/tag/ssl/' class='tag-link-20' title='1 topic' style='font-size: 8pt;'>ssl</a>
-<a href='http://www.trajano.net/tag/subversion/' class='tag-link-38' title='1 topic' style='font-size: 8pt;'>subversion</a>
-<a href='http://www.trajano.net/tag/testing/' class='tag-link-40' title='1 topic' style='font-size: 8pt;'>testing</a>
-<a href='http://www.trajano.net/tag/toronto/' class='tag-link-33' title='1 topic' style='font-size: 8pt;'>toronto</a>
-<a href='http://www.trajano.net/tag/trails/' class='tag-link-4' title='1 topic' style='font-size: 8pt;'>trails</a>
-<a href='http://www.trajano.net/tag/tynamo/' class='tag-link-7' title='1 topic' style='font-size: 8pt;'>tynamo</a>
-<a href='http://www.trajano.net/tag/unit-testing/' class='tag-link-3' title='2 topics' style='font-size: 12.2pt;'>unit testing</a>
-<a href='http://www.trajano.net/tag/version-control/' class='tag-link-24' title='2 topics' style='font-size: 12.2pt;'>version control</a>
-<a href='http://www.trajano.net/tag/web/' class='tag-link-9' title='1 topic' style='font-size: 8pt;'>web</a>
-<a href='http://www.trajano.net/tag/web-services/' class='tag-link-37' title='1 topic' style='font-size: 8pt;'>web services</a>
-<a href='http://www.trajano.net/tag/windows/' class='tag-link-31' title='1 topic' style='font-size: 8pt;'>windows</a></div>
+</aside><aside id="tag_cloud-2" class="widget widget_tag_cloud"><h1 class="widget-title">Tags</h1><div class="tagcloud"><a href='../../../tag/android/index.html' class='tag-link-18' title='1 topic' style='font-size: 8pt;'>android</a>
+<a href='../../../tag/ant/index.html' class='tag-link-22' title='1 topic' style='font-size: 8pt;'>ant</a>
+<a href='../../../tag/clearcase/index.html' class='tag-link-23' title='1 topic' style='font-size: 8pt;'>clearcase</a>
+<a href='../../../tag/cloud-computing/index.html' class='tag-link-36' title='1 topic' style='font-size: 8pt;'>cloud computing</a>
+<a href='../../../tag/curam/index.html' class='tag-link-2' title='7 topics' style='font-size: 22pt;'>curam</a>
+<a href='../../../tag/database/index.html' class='tag-link-17' title='1 topic' style='font-size: 8pt;'>database</a>
+<a href='../../../tag/eclipse/index.html' class='tag-link-15' title='1 topic' style='font-size: 8pt;'>eclipse</a>
+<a href='../../../tag/elasticsearch/index.html' class='tag-link-29' title='1 topic' style='font-size: 8pt;'>elasticsearch</a>
+<a href='../../../tag/ford-focus/index.html' class='tag-link-41' title='1 topic' style='font-size: 8pt;'>ford focus</a>
+<a href='../../../tag/httpunit/index.html' class='tag-link-21' title='1 topic' style='font-size: 8pt;'>httpunit</a>
+<a href='../../../tag/internet-explorer-6/index.html' class='tag-link-8' title='1 topic' style='font-size: 8pt;'>internet explorer 6</a>
+<a href='../../../tag/iphone/index.html' class='tag-link-19' title='1 topic' style='font-size: 8pt;'>iphone</a>
+<a href='../../../tag/java/index.html' class='tag-link-10' title='2 topics' style='font-size: 12.2pt;'>java</a>
+<a href='../../../tag/java-ee/index.html' class='tag-link-11' title='1 topic' style='font-size: 8pt;'>java ee</a>
+<a href='../../../tag/jax-ws/index.html' class='tag-link-12' title='1 topic' style='font-size: 8pt;'>jax-ws</a>
+<a href='../../../tag/logstash/index.html' class='tag-link-30' title='1 topic' style='font-size: 8pt;'>logstash</a>
+<a href='../../../tag/m2e/index.html' class='tag-link-13' title='1 topic' style='font-size: 8pt;'>m2e</a>
+<a href='../../../tag/maven/index.html' class='tag-link-14' title='1 topic' style='font-size: 8pt;'>maven</a>
+<a href='../../../tag/oracle/index.html' class='tag-link-16' title='1 topic' style='font-size: 8pt;'>oracle</a>
+<a href='../../../tag/rails/index.html' class='tag-link-5' title='1 topic' style='font-size: 8pt;'>rails</a>
+<a href='../../../tag/sakura-wars/index.html' class='tag-link-27' title='1 topic' style='font-size: 8pt;'>sakura wars</a>
+<a href='../../../tag/selenium/index.html' class='tag-link-39' title='1 topic' style='font-size: 8pt;'>selenium</a>
+<a href='../../../tag/ssl/index.html' class='tag-link-20' title='1 topic' style='font-size: 8pt;'>ssl</a>
+<a href='../../../tag/subversion/index.html' class='tag-link-38' title='1 topic' style='font-size: 8pt;'>subversion</a>
+<a href='../../../tag/testing/index.html' class='tag-link-40' title='1 topic' style='font-size: 8pt;'>testing</a>
+<a href='../../../tag/toronto/index.html' class='tag-link-33' title='1 topic' style='font-size: 8pt;'>toronto</a>
+<a href='../../../tag/trails/index.html' class='tag-link-4' title='1 topic' style='font-size: 8pt;'>trails</a>
+<a href='../../../tag/tynamo/index.html' class='tag-link-7' title='1 topic' style='font-size: 8pt;'>tynamo</a>
+<a href='../../../tag/unit-testing/index.html' class='tag-link-3' title='2 topics' style='font-size: 12.2pt;'>unit testing</a>
+<a href='../../../tag/version-control/index.html' class='tag-link-24' title='2 topics' style='font-size: 12.2pt;'>version control</a>
+<a href='../../../tag/web/index.html' class='tag-link-9' title='1 topic' style='font-size: 8pt;'>web</a>
+<a href='../../../tag/web-services/index.html' class='tag-link-37' title='1 topic' style='font-size: 8pt;'>web services</a>
+<a href='../../../tag/windows/index.html' class='tag-link-31' title='1 topic' style='font-size: 8pt;'>windows</a></div>
 </aside>	</div><!-- #primary-sidebar -->
 	</div><!-- #secondary -->
 
@@ -400,6 +400,6 @@ wrapper.ntservice.dependency.1=elasticsearch</textarea></div>
 		</footer><!-- #colophon -->
 	</div><!-- #page -->
 
-	<script type='text/javascript' src='http://www.trajano.net/wp-content/themes/twentyfourteen/js/functions.js?ver=20131209'></script>
+	<script type='text/javascript' src='../../../wp-content/themes/twentyfourteen/js/functions.js@ver=20131209'></script>
 </body>
 </html>
