@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Trajano &#187; unit testing</title>
+	<atom:link href="http://www.trajano.net/tag/unit-testing/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.trajano.net</link>
+	<description>Just another WordPress site</description>
+	<lastBuildDate>Wed, 05 Feb 2014 17:45:24 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<item>
+		<title>Changing the user for Curam Server Test</title>
+		<link>http://www.trajano.net/2013/10/changing-the-user-for-curam-server-test/</link>
+		<comments>http://www.trajano.net/2013/10/changing-the-user-for-curam-server-test/#comments</comments>
+		<pubDate>Tue, 22 Oct 2013 13:31:44 +0000</pubDate>
+		<dc:creator><![CDATA[trajano]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[curam]]></category>
+		<category><![CDATA[unit testing]]></category>
+
+		<guid isPermaLink="false">http://www.trajano.net/?p=21</guid>
+		<description><![CDATA[Without changing the core Curam code, you can change your user for CuramServerTest by calling RMIAuthentication.setPrincipal(). However, you cannot invoke it directly, instead you need a wrapper class, in my case I called it CustomAuth. The method needs to occur before the TransactionInfo gets created which happens on begin(), so the first part of your [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Without changing the core Curam code, you can change your user for CuramServerTest by calling RMIAuthentication.setPrincipal().  However, you cannot invoke it directly, instead you need a wrapper class, in my case I called it CustomAuth.<br />
+<span id="more-21"></span></p>
+<p>The method needs to occur before the TransactionInfo gets created which happens on begin(), so the first part of your test should rollback(), set the principal and finally begin() again.</p>
+<p></p><pre class="crayon-plain-tag">public class MyTest extends CuramServerTest {
+  public MyTest(final String name) {
+    super(name);
+  }
+  private static class CustomAuth extends RMIAuthentication {
+    public CustomAuth(String username) throws RemoteException {
+      super();
+      setPrincipal(new CuramPrincipal(username));
+    }
+  }
+  public void testSomethingAsCaseWorker() {
+    rollback();
+    new CustomAuth(&quot;caseworker&quot;);
+    begin();
+    // do the rest of the test here.
+  }
+}</pre><p></p>
+<p>The reason I used an internal class rather than a separate class for CustomAuth is to prevent changing the CuramServerTest framework which will execute all the java files.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.trajano.net/2013/10/changing-the-user-for-curam-server-test/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>SSL bypass with HttpUnit</title>
+		<link>http://www.trajano.net/2006/07/ssl-bypass-with-httpunit/</link>
+		<comments>http://www.trajano.net/2006/07/ssl-bypass-with-httpunit/#comments</comments>
+		<pubDate>Sun, 02 Jul 2006 13:43:59 +0000</pubDate>
+		<dc:creator><![CDATA[trajano]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[httpunit]]></category>
+		<category><![CDATA[java]]></category>
+		<category><![CDATA[ssl]]></category>
+		<category><![CDATA[unit testing]]></category>
+
+		<guid isPermaLink="false">http://www.trajano.net/?p=83</guid>
+		<description><![CDATA[I thought I would revisit my old application which did an SSL bypass discussed in The Java Developers Almanac 1.4, Volume 1: Examples and Quick Reference (4th Edition) because I wanted to do another small app that would require an SSL bypass. Along with that idea, I thought of using HttpUnit so I don&#8217;t have [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I thought I would revisit my old application which did an SSL bypass discussed in <a href="http://www.amazon.ca/gp/product/0201752808/ref=as_li_ss_tl?ie=UTF8&#038;camp=15121&#038;creative=390961&#038;creativeASIN=0201752808&#038;linkCode=as2&#038;tag=archimedestra-20">The Java Developers Almanac 1.4, Volume 1: Examples and Quick Reference (4th Edition)</a> because I wanted to do another small app that would require an SSL bypass. Along with that idea, I thought of using HttpUnit so I don&#8217;t have to write my own parsing routines. Unfortunately, there was a problem. Namely, the bypass didn&#8217;t work and it was requesting the certificate.<br />
+<span id="more-83"></span><br />
+This was the first time I am doing the SSL bypass with <a href="http://httpunit.sourceforge.net/">HttpUnit</a>. After searching Google I found that <a href="http://life.neophi.com/danielr/2005/10/https_testing_with_jwebunit.html">someone else</a> had the same problem, although their solution required the use of deprecated classes/methods. So I wanted to see if there was a different way of doing things. After digging though the code for HttpUnit, specifically <a href="http://httpunit.cvs.sourceforge.net/httpunit/httpunit/src/com/meterware/httpunit/HttpsProtocolSupport.java?revision=1.1&amp;view=markup">HttpsProtocolSupport</a>, I noticed a couple of lines explicitly referencing classes in the &#8220;com.sun&#8221; package:</p>
+<p></p><pre class="crayon-plain-tag">/** The name of the JSSE class which provides support for SSL. **/
+private final static String SunJSSE_PROVIDER_CLASS = &quot;com.sun.net.ssl.internal.ssl.Provider&quot;;
+
+/** The name of the JSSE class which supports the https protocol. **/
+private final static String SSL_PROTOCOL_HANDLER   = &quot;com.sun.net.ssl.internal.www.protocol&quot;;</pre><p></p>
+<p>And digging a bit further I found out that if I modified the system property <code>java.protocol.handler.pkgs</code> to be <code>javax.net.ssl|<b>com.sun.net.www.protocol</b>|com.sun.net.ssl.internal.www.protocol</code> the application works. The problem with that approach is the explicit naming of Sun packages which means that alternative JVMs would likely fail. It turns out that the registration of the SSL protocol handler is done on the <em>first</em> invocation of URL.openConnection() with an HTTPS protocol. HttpUnit changes the protocol handler order before invoking the URL.openConnection() that is what makes it use the wrong protocol handler. To fix this, I had to do was force URL.openConnection() before HttpUnit performs any of its tasks. This is as simple as:</p><pre class="crayon-plain-tag">try {
+new URL(&quot;https://0.0.0.0/&quot;).getContent();
+} catch (IOException e) {
+// Ignore exception
+}</pre><p>That is all that is needed to get the certificate check bypass to work. The full source is as follows:</p><pre class="crayon-plain-tag">import java.io.IOException;
+import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+public final class DisableSSLCertificateCheckUtil {
+/**
+ * Prevent instantiation of utility class.
+ */
+private DisableSSLCertificateCheckUtil() {
+
+}
+
+/**
+ * Trust manager that does not perform nay checks.
+ */
+private static class NullX509TrustManager implements X509TrustManager {
+ public void checkClientTrusted(X509Certificate[] chain, String authType)
+   throws CertificateException {
+ }
+
+ public void checkServerTrusted(X509Certificate[] chain, String authType)
+   throws CertificateException {
+ }
+
+ public X509Certificate[] getAcceptedIssuers() {
+  return new X509Certificate[0];
+ }
+
+}
+
+/**
+ * Host name verifier that does not perform nay checks.
+ */
+private static class NullHostnameVerifier implements HostnameVerifier {
+ public boolean verify(String hostname, SSLSession session) {
+  return true;
+ }
+}
+
+/**
+ * Disable trust checks for SSL connections.
+ */
+public static void disableChecks() throws NoSuchAlgorithmException,
+  KeyManagementException {
+
+ try {
+  new URL(&quot;https://0.0.0.0/&quot;).getContent();
+ } catch (IOException e) {
+  // This invocation will always fail, but it will register the
+  // default SSL provider to the URL class.
+ }
+
+ SSLContext context = SSLContext.getInstance(&quot;SSLv3&quot;);
+ TrustManager[] trustManagerArray = { new NullX509TrustManager() };
+ context.init(null, trustManagerArray, null);
+
+ HttpsURLConnection.setDefaultSSLSocketFactory(context
+   .getSocketFactory());
+ HttpsURLConnection
+   .setDefaultHostnameVerifier(new NullHostnameVerifier());
+}
+}</pre><p></p>
+<p>But I think the proper way of fixing this is to patch up HttpsProtocolSupport. I have sent in a <a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1516007&amp;group_id=6550&amp;atid=106550">bug report</a> <b>and a <a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1520925&amp;group_id=6550&amp;atid=306550">patch</a></b>for it already. For those who don&#8217;t know how this works, here&#8217;s a short blurb. Before setting the bypass, the HTTPS URL Provider has to be set so it does not change later on by HttpUnit. That is what the URL.getContent() in the try/catch block is for. The bypass is then implemented by creating a new X509TrustManager implementation that does not perform any check at all. So it will silently pass any certificate whether it is valid or not. Though for production environments this is not recommended, it is useful for test environments and prevents having the developer update their CACert file to contain self signed certificates. The SSLContext.getInstance() method retrieves an existing SSLContext for the SSLv3 protocol. This is the most common protocol used in most web servers, but others such as TLS can be used if needed. The context gets reinitialized with the custom X509TrustManager that does not perform any checks and a socket factory is created from it which is set as the default socket factory for the HttpsURLConnection. A custom HostnameVerifier is also created for URLs that only contain IP addresses or servers that use dummy certificates such as WebSphere. The custom HostnameVerifier, like the custom X509TrustManager, just accepts any hostname as valid and does not perform any checks. The final step is to associate the custom SocketFactory and HostnameVerifier as the defaults to the HttpsURLConnection. To invoke the code it is a matter of invoking the static method as follows:</p><pre class="crayon-plain-tag">DisableSSLCertificateCheckUtil.disableChecks();</pre><p>This method has been tested on HttpUnit 1.6.2 and Sun JDK 1.5. I have recently updated it to work with JDK 7 and put it as part of my <a href="http://site.trajano.net/commons-testing">Commons Testing</a> artifact.  If you try it on a different environment please post a comment to let me know.</p>
+	<br /><table cellpadding="0" class="amazon-product-table">
+		<tr>
+			<td valign="top">
+				<div class="amazon-image-wrapper">
+					<a href="http://www.amazon.ca/The-Java%C2%BF-Developers-Almanac-Volume/dp/0201752808%3FSubscriptionId%3D1Y1GW7AXX5GAHR3PSQ02%26tag%3Darchimedestra-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0201752808" ><img src="http://ecx.images-amazon.com/images/I/51JWAFCZWAL._SL160_.jpg" class="amazon-image amazon-image" /></a><br />
+					<a rel="appiplightbox-0201752808" href="http://ecx.images-amazon.com/images/I/51JWAFCZWAL.jpg"><span class="amazon-tiny">See larger image</span></a>
+				</div>
+				<div class="amazon-buying">
+					<h2 class="amazon-asin-title"><a href="http://www.amazon.ca/The-Java%C2%BF-Developers-Almanac-Volume/dp/0201752808%3FSubscriptionId%3D1Y1GW7AXX5GAHR3PSQ02%26tag%3Darchimedestra-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0201752808" ><span class="asin-title">The Java¿ Developers Almanac 1.4, Volume 1: Examples and Quick Reference (4th Edition) (Paperback)</span></a></h2>
+					<span class="amazon-author">By (author):</span> Patrick Chan</span><br />
+				</div>
+				<hr noshade="noshade" size="1" />
+				<div align="left">
+					<table class="amazon-product-price" cellpadding="0">
+						<tr>
+							<td class="amazon-list-price-label">List Price:</td>
+							<td class="amazon-list-price">CDN$ 36.99 CAD</td>
+						</tr>
+						<tr>
+							<td class="amazon-new-label">New From:</td>
+							<td class="amazon-new">CDN$ 21.59 CAD <span class="instock">In Stock</span></td>
+						</tr>
+						<tr>
+							<td class="amazon-used-label">Used from:</td>
+						<td class="amazon-used">CDN$ 0.01 CAD <span class="instock">In Stock</span></td>
+						</tr>
+						<tr>
+							<td valign="top" colspan="2">
+								<div class="amazon-dates">
+									<br /><div><a style="display:block;margin-top:8px;margin-bottom:5px;width:165px;"  href="http://www.amazon.ca/The-Java%C2%BF-Developers-Almanac-Volume/dp/0201752808%3FSubscriptionId%3D1Y1GW7AXX5GAHR3PSQ02%26tag%3Darchimedestra-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0201752808"><img src="http://www.trajano.net/wp-content/plugins/amazon-product-in-a-post-plugin/images/buyamzon-button-plain.png" border="0" style="border:0 none !important;margin:0px !important;background:transparent !important;" /></a></div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+	</table>
+<!-- APPIP Item Cached [15.000000] -->
+<div class="appip-multi-divider"><!--appip divider--></div>
+]]></content:encoded>
+			<wfw:commentRss>http://www.trajano.net/2006/07/ssl-bypass-with-httpunit/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

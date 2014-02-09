@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Trajano &#187; subversion</title>
+	<atom:link href="http://www.trajano.net/tag/subversion/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.trajano.net</link>
+	<description>Just another WordPress site</description>
+	<lastBuildDate>Wed, 05 Feb 2014 17:45:24 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<item>
+		<title>Subversion with staging area</title>
+		<link>http://www.trajano.net/2007/06/subversion-with-staging-area/</link>
+		<comments>http://www.trajano.net/2007/06/subversion-with-staging-area/#comments</comments>
+		<pubDate>Fri, 15 Jun 2007 02:44:53 +0000</pubDate>
+		<dc:creator><![CDATA[trajano]]></dc:creator>
+				<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[subversion]]></category>
+
+		<guid isPermaLink="false">http://www.trajano.net/?p=140</guid>
+		<description><![CDATA[Most bad builds comes from people commiting source code that have not been fully tested. If you have a single trunk approach, you&#8217;d get into situations where someone commits some bad code and everyone suffers when they do an update with the bad code. Note: This is just theory. I have not implemented this yet. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div>Most bad builds comes from people commiting source code that have not been fully tested. If you have a single trunk approach, you&#8217;d get into situations where someone commits some bad code and everyone suffers when they do an update with the bad code.</div>
+<div></div>
+<div><strong>Note: This is just theory. I have not implemented this yet.</strong></div>
+<div></div>
+<div>ClearCase with UCM provides a concept of an integration stream and each developer having their own maintenance stream which gets incorporated. So if you have ClearCase and use UCM great. However, for those that do not have the money for it you can have something similar using Subversion.</div>
+<div></div>
+<div>Subversion branches are O(1) operations, so setting the structure up in Subversion should be pretty fast.</div>
+<div></div>
+<div>What we do is add another folder in the root called <em>user-workspaces</em> this folder in turn contains one folder for every user workspace which should be the name of the user generally. Each user workspace folder is an svn copy of trunk.</div>
+<div></div>
+<div>The user workspace is what the developers check out and commit their changes to.</div>
+<div></div>
+<div>The Cruise Control build server checks out files from trunk and tries to svn merge each user workspace into it. If it detects a conflict, the build stops as a failure. If there are no conflicts, then Cruise Control continues with the build. If the build is successful, the local build copy with all the merged code is committed to trunk.</div>
+<div></div>
+<p>Then it applies all the merged changes to each of the user workspace folders in the repository and commits them. So when the developers do an update they would get all the latest changes and their local copy will work provided their changes do not actually cause a build to fail.</p>
+<div>If the operation of copying the merged changes to the developer fail (because a developer has committed some change which is not mergable while a build is being executed). Then we have a problem. <img src="http://www.trajano.net/wp-includes/images/smilies/icon_sad.gif" alt=":(" class="wp-smiley" />  I haven&#8217;t figure out how to solve that issue yet short of locking everything down while a build is running.</div>
+]]></content:encoded>
+			<wfw:commentRss>http://www.trajano.net/2007/06/subversion-with-staging-area/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

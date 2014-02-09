@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Trajano &#187; database</title>
+	<atom:link href="http://www.trajano.net/tag/database/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.trajano.net</link>
+	<description>Just another WordPress site</description>
+	<lastBuildDate>Wed, 05 Feb 2014 17:45:24 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<item>
+		<title>Keeping database releases sane in Curam</title>
+		<link>http://www.trajano.net/2013/11/keeping-database-releases-sane-in-curam/</link>
+		<comments>http://www.trajano.net/2013/11/keeping-database-releases-sane-in-curam/#comments</comments>
+		<pubDate>Mon, 18 Nov 2013 14:48:07 +0000</pubDate>
+		<dc:creator><![CDATA[trajano]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[curam]]></category>
+		<category><![CDATA[database]]></category>
+
+		<guid isPermaLink="false">http://www.trajano.net/?p=29</guid>
+		<description><![CDATA[Curam out of the box comes with the build database functionality. Though it is create for development, almost every single project I have been on never used it past development because it destroys data. Although it isn&#8217;t possible to use build database effectively when there are structural changes, you can keep yourself sane with the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Curam out of the box comes with the <code>build database</code> functionality.  Though it is create for development, almost every single project I have been on never used it past development because it destroys data.</p>
+<p>Although it isn&#8217;t possible to use build database effectively when there are structural changes, you can keep yourself sane with the reference data changes which may happen quite frequently.<br />
+<span id="more-29"></span></p>
+<p>In order to do this, you need to define a set of tables that are meant as reference data that comes part of the application that is separate from the transactional data that gets built at run-time.</p>
+<p>I would also recommend that you DO NOT try to buy into the Curam sales pitch that says you would be able to change organization structure, security, codetable or workflow on live systems, because they are generally tied with the application and allowing operations to change this is a VERY BAD idea.</p>
+<p>So here&#8217;s an initial list of tables I would recommend to keep as part of reference data</p>
+<p>* DPPROCESS<br />
+* SECURITYGROUP<br />
+* SECURITYGROUPSID<br />
+* JOB<br />
+* ORGANIZATIONSTRUCTURE<br />
+* ORGANIZATIONUNIT<br />
+* ORGUNITPARENTLINK<br />
+* FUNCTONIDENTIFIER<br />
+* RULESETINFORMATION<br />
+* EVENTCLASS<br />
+* EVENTTYPE<br />
+* BATCHPROCDEF<br />
+* BATCHPARAMDEF<br />
+* BATCHPARAMDESC<br />
+* SECURITYFIDSID<br />
+* SECURITYIDENTIFIER<br />
+* APPRESOURCE<br />
+* DATASOURCESCHEMA<br />
+* MODULECLASSNAME<br />
+* BPOMETHODLIBRARY<br />
+* PROCENACTEVTDATA<br />
+* PROCENACTMENTEVT<br />
+* SECURITYROLE<br />
+* XSLTEMPLATE<br />
+* DOCUMENTTEPLATE<br />
+* GOAL<br />
+* SUBGOAL<br />
+* GOALSUBGOALLINK<br />
+* ISSUECONFIGURATION<br />
+* NICKNAME<br />
+* OUTCOME<br />
+* PLANITEM<br />
+* PLANITEMOUTCOMELINK<br />
+* PRODUCT<br />
+* PRODUCTCATEGORY<br />
+* PRODUCTCONCERNROLE<br />
+* PRODUCTDELIVERYPATTERN<br />
+* PRODUCTDELIVERYPATTERNINFO<br />
+* PRODUCTEVIDENCELINK<br />
+* PRODUCTRULESLINK<br />
+* RATECOLUMN<br />
+* RATEHEADER<br />
+* RATEROW<br />
+* RESOLUTIONCONFIGURATION<br />
+* SERVICEOFFERING<br />
+* SERVICEPLAN<br />
+* SERVICEPLANGOALLINK<br />
+* SUBGOAL<br />
+* SUBGOALPLANITEMLINK<br />
+* TEMPORALEVIDENCEAPPROVALCHECK<br />
+* VERIFIABLEDATAITEM<br />
+* VERIFICATIONCATEGORY<br />
+* VERIFICATIONITEM<br />
+* VERIFICATIONITEMUTILIZATION<br />
+* VERIFICATIONREQUIREMENT<br />
+* VERIFICATIONREQUIREMENTUSAGE<br />
+* XSLTEMPLATEINST<br />
+* TASKDEFINITION<br />
+* WORKALLOCATIONFUNCTION<br />
+* WORKQUEUE<br />
+* EVIDENCEMETADATA<br />
+* CODETABLEITEM<br />
+* CODETABLEHEADER<br />
+* CODETABLEHIERARCHY</p>
+<p>Once you have determined your reference tables, ensure that their DMX and SQL files are located elsewhere.</p>
+<p>It is best that you do this in stages because you have to ensure referential integrity of the data as you are going through the tables.  The simplest ones to start out with is the code table.</p>
+<p>In your datamanager_config.xml add a new target called</p><pre class="crayon-plain-tag">&lt;target name=&quot;prepare-reference&quot;&gt;
+  &lt;entry name=&quot;components/custom/Data_Manager/Reference_Data/
+               Handcrafted_scripts/delete_reference_data.sql&quot;
+         type=&quot;sql&quot; base=&quot;basedir&quot; /&gt;
+&lt;/target&gt;
+&lt;compositetarget name=&quot;updatereference&quot;&gt;
+  &lt;subtarget name=&quot;prepare-reference&quot; /&gt;
+  &lt;subtarget name=&quot;codetables&quot; /&gt;
+&lt;/compositetarget&gt;</pre><p></p>
+<p>Create the delete_reference_data.sql with the following:</p><pre class="crayon-plain-tag">delete from CODETABLEITEM;
+delete from CODETABLEHIERARCHY;
+delete from CODETABLEHEADER;</pre><p>Instead of build database use the following command</p>
+<p></p><pre class="crayon-plain-tag">build insertdata -Dprm.target=updatereference</pre><p></p>
+<p>This will prevent the lobmanager, ieg, etc from executing for now.  Those can be added later but your delete_reference_data.sql needs to be updated.</p>
+<p>After the build there&#8217;s a file called build\datamanager\SetupDatabase.sql can can be executed on the production servers to update the code tables.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.trajano.net/2013/11/keeping-database-releases-sane-in-curam/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

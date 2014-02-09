@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Trajano &#187; curam</title>
+	<atom:link href="http://www.trajano.net/tag/curam/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.trajano.net</link>
+	<description>Just another WordPress site</description>
+	<lastBuildDate>Wed, 05 Feb 2014 17:45:24 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<item>
+		<title>Deleting all indexes and constraints in Oracle</title>
+		<link>http://www.trajano.net/2013/11/deleting-all-indexes-and-constraints-in-oracle/</link>
+		<comments>http://www.trajano.net/2013/11/deleting-all-indexes-and-constraints-in-oracle/#comments</comments>
+		<pubDate>Thu, 21 Nov 2013 16:43:36 +0000</pubDate>
+		<dc:creator><![CDATA[trajano]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[curam]]></category>
+		<category><![CDATA[oracle]]></category>
+
+		<guid isPermaLink="false">http://www.trajano.net/?p=33</guid>
+		<description><![CDATA[This is used to delete all the indexes and constraints in Oracle so a Curam target can be used to recreate the indexes. [crayon-52f6c60b39324390794699/]]]></description>
+				<content:encoded><![CDATA[<p>This is used to delete all the indexes and constraints in Oracle so a Curam target can be used to recreate the indexes.<br />
+<span id="more-33"></span></p><pre class="crayon-plain-tag">BEGIN 
+    FOR ind IN (SELECT index_name 
+                FROM   user_indexes 
+                WHERE  index_type = 'NORMAL') LOOP 
+        EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name; 
+    END LOOP; 
+
+    FOR r IN (SELECT table_name, 
+                     constraint_name 
+              FROM   user_constraints 
+              WHERE  constraint_type = 'R') LOOP 
+        EXECUTE IMMEDIATE 'alter table '||r.table_name 
+        ||' drop constraint '||r.constraint_name; 
+    END LOOP; 
+
+    FOR r IN (SELECT table_name, 
+                     constraint_name 
+              FROM   user_constraints 
+              WHERE  constraint_type = 'P') LOOP 
+        EXECUTE IMMEDIATE 'alter table '||r.table_name 
+        ||' drop constraint '||r.constraint_name; 
+    END LOOP; 
+END;</pre><p></p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.trajano.net/2013/11/deleting-all-indexes-and-constraints-in-oracle/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Keeping database releases sane in Curam</title>
+		<link>http://www.trajano.net/2013/11/keeping-database-releases-sane-in-curam/</link>
+		<comments>http://www.trajano.net/2013/11/keeping-database-releases-sane-in-curam/#comments</comments>
+		<pubDate>Mon, 18 Nov 2013 14:48:07 +0000</pubDate>
+		<dc:creator><![CDATA[trajano]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[curam]]></category>
+		<category><![CDATA[database]]></category>
+
+		<guid isPermaLink="false">http://www.trajano.net/?p=29</guid>
+		<description><![CDATA[Curam out of the box comes with the build database functionality. Though it is create for development, almost every single project I have been on never used it past development because it destroys data. Although it isn&#8217;t possible to use build database effectively when there are structural changes, you can keep yourself sane with the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Curam out of the box comes with the <code>build database</code> functionality.  Though it is create for development, almost every single project I have been on never used it past development because it destroys data.</p>
+<p>Although it isn&#8217;t possible to use build database effectively when there are structural changes, you can keep yourself sane with the reference data changes which may happen quite frequently.<br />
+<span id="more-29"></span></p>
+<p>In order to do this, you need to define a set of tables that are meant as reference data that comes part of the application that is separate from the transactional data that gets built at run-time.</p>
+<p>I would also recommend that you DO NOT try to buy into the Curam sales pitch that says you would be able to change organization structure, security, codetable or workflow on live systems, because they are generally tied with the application and allowing operations to change this is a VERY BAD idea.</p>
+<p>So here&#8217;s an initial list of tables I would recommend to keep as part of reference data</p>
+<p>* DPPROCESS<br />
+* SECURITYGROUP<br />
+* SECURITYGROUPSID<br />
+* JOB<br />
+* ORGANIZATIONSTRUCTURE<br />
+* ORGANIZATIONUNIT<br />
+* ORGUNITPARENTLINK<br />
+* FUNCTONIDENTIFIER<br />
+* RULESETINFORMATION<br />
+* EVENTCLASS<br />
+* EVENTTYPE<br />
+* BATCHPROCDEF<br />
+* BATCHPARAMDEF<br />
+* BATCHPARAMDESC<br />
+* SECURITYFIDSID<br />
+* SECURITYIDENTIFIER<br />
+* APPRESOURCE<br />
+* DATASOURCESCHEMA<br />
+* MODULECLASSNAME<br />
+* BPOMETHODLIBRARY<br />
+* PROCENACTEVTDATA<br />
+* PROCENACTMENTEVT<br />
+* SECURITYROLE<br />
+* XSLTEMPLATE<br />
+* DOCUMENTTEPLATE<br />
+* GOAL<br />
+* SUBGOAL<br />
+* GOALSUBGOALLINK<br />
+* ISSUECONFIGURATION<br />
+* NICKNAME<br />
+* OUTCOME<br />
+* PLANITEM<br />
+* PLANITEMOUTCOMELINK<br />
+* PRODUCT<br />
+* PRODUCTCATEGORY<br />
+* PRODUCTCONCERNROLE<br />
+* PRODUCTDELIVERYPATTERN<br />
+* PRODUCTDELIVERYPATTERNINFO<br />
+* PRODUCTEVIDENCELINK<br />
+* PRODUCTRULESLINK<br />
+* RATECOLUMN<br />
+* RATEHEADER<br />
+* RATEROW<br />
+* RESOLUTIONCONFIGURATION<br />
+* SERVICEOFFERING<br />
+* SERVICEPLAN<br />
+* SERVICEPLANGOALLINK<br />
+* SUBGOAL<br />
+* SUBGOALPLANITEMLINK<br />
+* TEMPORALEVIDENCEAPPROVALCHECK<br />
+* VERIFIABLEDATAITEM<br />
+* VERIFICATIONCATEGORY<br />
+* VERIFICATIONITEM<br />
+* VERIFICATIONITEMUTILIZATION<br />
+* VERIFICATIONREQUIREMENT<br />
+* VERIFICATIONREQUIREMENTUSAGE<br />
+* XSLTEMPLATEINST<br />
+* TASKDEFINITION<br />
+* WORKALLOCATIONFUNCTION<br />
+* WORKQUEUE<br />
+* EVIDENCEMETADATA<br />
+* CODETABLEITEM<br />
+* CODETABLEHEADER<br />
+* CODETABLEHIERARCHY</p>
+<p>Once you have determined your reference tables, ensure that their DMX and SQL files are located elsewhere.</p>
+<p>It is best that you do this in stages because you have to ensure referential integrity of the data as you are going through the tables.  The simplest ones to start out with is the code table.</p>
+<p>In your datamanager_config.xml add a new target called</p><pre class="crayon-plain-tag">&lt;target name=&quot;prepare-reference&quot;&gt;
+  &lt;entry name=&quot;components/custom/Data_Manager/Reference_Data/
+               Handcrafted_scripts/delete_reference_data.sql&quot;
+         type=&quot;sql&quot; base=&quot;basedir&quot; /&gt;
+&lt;/target&gt;
+&lt;compositetarget name=&quot;updatereference&quot;&gt;
+  &lt;subtarget name=&quot;prepare-reference&quot; /&gt;
+  &lt;subtarget name=&quot;codetables&quot; /&gt;
+&lt;/compositetarget&gt;</pre><p></p>
+<p>Create the delete_reference_data.sql with the following:</p><pre class="crayon-plain-tag">delete from CODETABLEITEM;
+delete from CODETABLEHIERARCHY;
+delete from CODETABLEHEADER;</pre><p>Instead of build database use the following command</p>
+<p></p><pre class="crayon-plain-tag">build insertdata -Dprm.target=updatereference</pre><p></p>
+<p>This will prevent the lobmanager, ieg, etc from executing for now.  Those can be added later but your delete_reference_data.sql needs to be updated.</p>
+<p>After the build there&#8217;s a file called build\datamanager\SetupDatabase.sql can can be executed on the production servers to update the code tables.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.trajano.net/2013/11/keeping-database-releases-sane-in-curam/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Preparing for version control on Curam</title>
+		<link>http://www.trajano.net/2013/10/preparing-for-version-control-on-curam/</link>
+		<comments>http://www.trajano.net/2013/10/preparing-for-version-control-on-curam/#comments</comments>
+		<pubDate>Thu, 24 Oct 2013 18:18:00 +0000</pubDate>
+		<dc:creator><![CDATA[trajano]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[curam]]></category>
+		<category><![CDATA[version control]]></category>
+
+		<guid isPermaLink="false">http://www.trajano.net/?p=24</guid>
+		<description><![CDATA[Some things that took me as gotchas when I initially set up Curam for version control. These tips are primarily for git users. It is very important that you do a build clean on both the client and server code. I had to deal with a lot of SVN headaches because of this. Ignore the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Some things that took me as gotchas when I initially set up Curam for version control.  These tips are primarily for git users.  It is very important that you do a build clean on both the client and server code.  I had to deal with a lot of SVN headaches because of this.<br />
+<span id="more-24"></span><br />
+Ignore the following files</p><pre class="crayon-plain-tag">build/
+buildlogs/
+*.log
+*~
+
+EJBServer/project/properties/.bindings
+EJBServer/project/properties/AppServer.properties
+EJBServer/project/properties/Bootstrap.properties
+EJBServer/eclipsebuild/
+
+webclient/work/
+webclient/JavaSource/curam/omega3/CDEJBuildSettings.properties
+webclient/JavaSource/curam/util
+webclient/WebContent
+
+# ignore all Curam replaced files
+*_replacedBy*</pre><p></p>
+<p>make a copy of Bootstrap.properties and call it Bootstrap.properties.sample so your team can use it as a baseline</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.trajano.net/2013/10/preparing-for-version-control-on-curam/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Changing the user for Curam Server Test</title>
+		<link>http://www.trajano.net/2013/10/changing-the-user-for-curam-server-test/</link>
+		<comments>http://www.trajano.net/2013/10/changing-the-user-for-curam-server-test/#comments</comments>
+		<pubDate>Tue, 22 Oct 2013 13:31:44 +0000</pubDate>
+		<dc:creator><![CDATA[trajano]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[curam]]></category>
+		<category><![CDATA[unit testing]]></category>
+
+		<guid isPermaLink="false">http://www.trajano.net/?p=21</guid>
+		<description><![CDATA[Without changing the core Curam code, you can change your user for CuramServerTest by calling RMIAuthentication.setPrincipal(). However, you cannot invoke it directly, instead you need a wrapper class, in my case I called it CustomAuth. The method needs to occur before the TransactionInfo gets created which happens on begin(), so the first part of your [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Without changing the core Curam code, you can change your user for CuramServerTest by calling RMIAuthentication.setPrincipal().  However, you cannot invoke it directly, instead you need a wrapper class, in my case I called it CustomAuth.<br />
+<span id="more-21"></span></p>
+<p>The method needs to occur before the TransactionInfo gets created which happens on begin(), so the first part of your test should rollback(), set the principal and finally begin() again.</p>
+<p></p><pre class="crayon-plain-tag">public class MyTest extends CuramServerTest {
+  public MyTest(final String name) {
+    super(name);
+  }
+  private static class CustomAuth extends RMIAuthentication {
+    public CustomAuth(String username) throws RemoteException {
+      super();
+      setPrincipal(new CuramPrincipal(username));
+    }
+  }
+  public void testSomethingAsCaseWorker() {
+    rollback();
+    new CustomAuth(&quot;caseworker&quot;);
+    begin();
+    // do the rest of the test here.
+  }
+}</pre><p></p>
+<p>The reason I used an internal class rather than a separate class for CustomAuth is to prevent changing the CuramServerTest framework which will execute all the java files.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.trajano.net/2013/10/changing-the-user-for-curam-server-test/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Understanding the product and financial components</title>
+		<link>http://www.trajano.net/2008/05/understanding-product-and-financial/</link>
+		<comments>http://www.trajano.net/2008/05/understanding-product-and-financial/#comments</comments>
+		<pubDate>Tue, 13 May 2008 13:13:25 +0000</pubDate>
+		<dc:creator><![CDATA[trajano]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[curam]]></category>
+
+		<guid isPermaLink="false">http://www.trajano.net/?p=79</guid>
+		<description><![CDATA[After hunting around for information on how the Curam product and financial components work, I still find it a bit hard to grasp.  So to help keep my sanity I am documenting some scenarios of what happens.  Hopefully other people can document other scenarios as comments to help others. Capturing Manual Payment When capturing a [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>After hunting around for information on how the Curam product and financial components work, I still find it a bit hard to grasp.  So to help keep my sanity I am documenting some scenarios of what happens.  Hopefully other people can document other scenarios as comments to help others.<br />
+<span id="more-79"></span></p>
+<h2>Capturing Manual Payment</h2>
+<p>When capturing a manual payment, it has to be associate with a product delivery case.  When the product delivery is activated and payments are generated, it will create a payment containing the difference between what was already paid and what is not.</p>
+<h2>Financial Components</h2>
+<p>Financial components are created on product delivery activation.  It actually creates it until the expected end date or certification period.</p>
+<p>On activation, the deferred process actually runs an assessment for each date that matches the delivery frequency pattern. This prevents the rules from being executed every day which can take a long while.</p>
+<h2>Overpayment and Underpayment Cases</h2>
+<p>It seems that Overpayment and Underpayment cases are only generated when the product is <strong>certifiable</strong>.  This is done by a batch process.  The cases get created when there is a change in evidence that is applied and the batch process is run.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.trajano.net/2008/05/understanding-product-and-financial/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Disabling cache in Curam</title>
+		<link>http://www.trajano.net/2007/10/disabling-cache-in-curam/</link>
+		<comments>http://www.trajano.net/2007/10/disabling-cache-in-curam/#comments</comments>
+		<pubDate>Tue, 30 Oct 2007 06:12:56 +0000</pubDate>
+		<dc:creator><![CDATA[trajano]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[curam]]></category>
+		<category><![CDATA[internet explorer 6]]></category>
+		<category><![CDATA[web]]></category>
+
+		<guid isPermaLink="false">http://www.trajano.net/?p=58</guid>
+		<description><![CDATA[This is better than disabling the back button, even if it is one of the 10 ten web design mistakes.  However, for Cúram applications and most web other applications, this is something that would really need to be done in order to ensure that the user gets the most current data when they look at [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This is better than <a href="https://web.archive.org/web/20081227175113/http://www.trajano.net/2007/10/disabling-back-button-in-curam.html">disabling the back button</a>, even if it is one of the <a href="http://www.nngroup.com/articles/the-top-ten-web-design-mistakes-of-1999/">10 ten web design mistakes</a>.  However, for Cúram applications and most web other applications, this is something that would really need to be done in order to ensure that the user gets the most current data when they look at a page and to satisfy the requirement of <b>nothing persisted on the client machine</b>.</p>
+<h2>Technical overview</h2>
+<p>There are two things that need to be done.  The first is to add the following lines to the HTTP header:</p><pre class="crayon-plain-tag">Cache-Control: no-store
+Pragma: no-cache
+Expires: 0</pre><p>And the following in the &lt;head&gt; block of your web page.</p>
+<p></p><pre class="crayon-plain-tag">&lt;meta http-equiv=&quot;Expires&quot; content=&quot;0&quot; /&gt;
+&lt;meta http-equiv=&quot;Cache-Control&quot; content=&quot;no-cache&quot; /&gt;
+&lt;meta http-equiv=&quot;Pragma&quot; content=&quot;no-cache&quot; /&gt;</pre><p></p>
+<p>This will make <strong>most</strong> web browsers not cache the page.</p>
+<p>The second thing you need to do is to work around the <a href="http://support.microsoft.com/kb/222064/en-us">Internet Explorer bug</a> which disregards the no-cache header information if your page is larger than 64k.  To do that add</p>
+<p></p><pre class="crayon-plain-tag">&lt;head&gt;
+&lt;meta http-equiv=&quot;Pragma&quot; content=&quot;NO-CACHE&quot; /&gt;
+&lt;/head&gt;</pre><p></p>
+<p>Near the end of your file.</p>
+<h2>Curam implementation</h2>
+<p>Unlike the process of disabling the back button, you cannot simply make the changes on <em>gen-page-header.xsl </em>or <em>gen-page-footer.xsl</em>.  The changes need to be directly done on <em>CuramCDEJ\lib\curam\xml\xsl\gen-jsp.xsl</em>.</p>
+<p><strong>Note: </strong>If there are any upgrades to Curam, the changes need to be redone on the file.</p>
+<p>In <em>gen-page-header.xsl</em>, add the following XML after the first instance of &lt;head&gt; in the jsp.xsl</p>
+<p></p><pre class="crayon-plain-tag">&lt;jsp:scriptlet&gt;
+response.setHeader(&quot;Cache-Control&quot;, &quot;no-store&quot;);
+response.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);
+response.setHeader(&quot;Expires&quot;, &quot;0&quot;);
+&lt;/jsp:scriptlet&gt;
+&lt;meta http-equiv=&quot;Expires&quot; content=&quot;0&quot; /&gt;
+&lt;meta http-equiv=&quot;Cache-Control&quot; content=&quot;no-cache&quot; /&gt;
+&lt;meta http-equiv=&quot;Pragma&quot; content=&quot;no-cache&quot; /&gt;</pre><p></p>
+<p>You also need to add the following XML after the scriptlet that outputs <strong>&lt;/body&gt;</strong>:</p>
+<p></p><pre class="crayon-plain-tag">&lt;meta http-equiv=&quot;Expires&quot; content=&quot;0&quot; /&gt;
+&lt;meta http-equiv=&quot;Cache-Control&quot; content=&quot;no-cache&quot; /&gt;
+&lt;meta http-equiv=&quot;Pragma&quot; content=&quot;no-cache&quot; /&gt;</pre><p></p>
+<h2>Browser compatibility</h2>
+<p>This has only been tested on Firefox and Internet Explorer 6, but it should work with most browsers.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.trajano.net/2007/10/disabling-cache-in-curam/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Getting webservices working in Curam development</title>
+		<link>http://www.trajano.net/2007/06/getting-webservices-working-in-curam/</link>
+		<comments>http://www.trajano.net/2007/06/getting-webservices-working-in-curam/#comments</comments>
+		<pubDate>Fri, 22 Jun 2007 01:05:52 +0000</pubDate>
+		<dc:creator><![CDATA[trajano]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[curam]]></category>
+		<category><![CDATA[web services]]></category>
+
+		<guid isPermaLink="false">http://www.trajano.net/?p=126</guid>
+		<description><![CDATA[Doing webservices in Curam is quite easy now that they are using Axis 1.2 which can parse more WSDL files. It is not the latest yet, but so far the WSDLs that are generated for a .Net environment do work in Java. I never bothered with the .cat file generation, I don&#8217;t think it works [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Doing webservices in Curam is quite easy now that they are using Axis 1.2 which can parse more WSDL files. It is not the latest yet, but so far the WSDLs that are generated for a .Net environment do work in Java. I never bothered with the .cat file generation, I don&#8217;t think it works too well especially with complex WSDLs. Fortunately, we do not need them.<br />
+<span id="more-126"></span><br />
+As per the DocCenter, you just need to copy the WSDL files into the wsdl folder in custom and reference them in <code>webservices_config.xml</code>. When you do <code>build generated</code>, it will eventually create a <em>wsc-proxy.jar</em> file for you. The problem is that the generated Java files are not put into the <code>.classpath</code>. To fix this, add </p>
+<p></p><pre class="crayon-plain-tag">&lt;classpathentry kind=&quot;lib&quot; path=&quot;build/svr/wsc/jav&quot; sourcepath=&quot;build/svr/wsc/jav&quot;/&gt;</pre><p></p>
+<p> to your <code>.classpath</code>. Do not add <code>wsc-proxy.jar</code> as Eclipse (with CheckStyle) might lock it and you cannot build without quitting Eclipse first. Now if you have an issue where you have two classes with the same name but in different packages or namespaces then you&#8217;d have a problem. Curam OOTB forces the package to &#8220;wsconnector&#8221; though I am not sure why yet. To fix this, you need to change <em>CuramSDEJ\bin\wsdl2java.xsl</em> and comment out the following line</p>
+<p></p><pre class="crayon-plain-tag">&lt;xsl:attribute name=&quot;package&quot;&gt;wsconnector&lt;/xsl:attribute&gt;</pre><p></p>
+<p>That should fix that problem. Until you try to do a build on CruiseControl. CruiseControl uses Ant which normally does not actually change your OS directory. So where in it tries to figure out where the NStoPkg.properties file is it might not find it. To fix this open up <code>app_wsconnector.xml</code> and add the bolded text to the following code snippet</p>
+<p></p><pre class="crayon-plain-tag">name=&quot;wsdl2java&quot; classname=&quot;curam.util.tools.wsdl.WsdlToJavaAntTask&quot; classpath=&quot;${jar.tools}:${jar.axis}:${jar.wsdl4j}: ${jar.jaxrpc}:${jar.commonslogging}:${jar.commonsdiscovery}: ${jar.saaj}:${jar.j2ee}&lt;b&gt;:${SERVER_DIR}&lt;/b&gt;&quot;</pre><p> </p>
+<p>${basedir} will actually point to EJBServer during the CruiseControl build.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.trajano.net/2007/06/getting-webservices-working-in-curam/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

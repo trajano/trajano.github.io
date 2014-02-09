@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Trajano &#187; oracle</title>
+	<atom:link href="http://www.trajano.net/tag/oracle/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.trajano.net</link>
+	<description>Just another WordPress site</description>
+	<lastBuildDate>Wed, 05 Feb 2014 17:45:24 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<item>
+		<title>Deleting all indexes and constraints in Oracle</title>
+		<link>http://www.trajano.net/2013/11/deleting-all-indexes-and-constraints-in-oracle/</link>
+		<comments>http://www.trajano.net/2013/11/deleting-all-indexes-and-constraints-in-oracle/#comments</comments>
+		<pubDate>Thu, 21 Nov 2013 16:43:36 +0000</pubDate>
+		<dc:creator><![CDATA[trajano]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[curam]]></category>
+		<category><![CDATA[oracle]]></category>
+
+		<guid isPermaLink="false">http://www.trajano.net/?p=33</guid>
+		<description><![CDATA[This is used to delete all the indexes and constraints in Oracle so a Curam target can be used to recreate the indexes. [crayon-52f6c60b6e112511790058/]]]></description>
+				<content:encoded><![CDATA[<p>This is used to delete all the indexes and constraints in Oracle so a Curam target can be used to recreate the indexes.<br />
+<span id="more-33"></span></p><pre class="crayon-plain-tag">BEGIN 
+    FOR ind IN (SELECT index_name 
+                FROM   user_indexes 
+                WHERE  index_type = 'NORMAL') LOOP 
+        EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name; 
+    END LOOP; 
+
+    FOR r IN (SELECT table_name, 
+                     constraint_name 
+              FROM   user_constraints 
+              WHERE  constraint_type = 'R') LOOP 
+        EXECUTE IMMEDIATE 'alter table '||r.table_name 
+        ||' drop constraint '||r.constraint_name; 
+    END LOOP; 
+
+    FOR r IN (SELECT table_name, 
+                     constraint_name 
+              FROM   user_constraints 
+              WHERE  constraint_type = 'P') LOOP 
+        EXECUTE IMMEDIATE 'alter table '||r.table_name 
+        ||' drop constraint '||r.constraint_name; 
+    END LOOP; 
+END;</pre><p></p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.trajano.net/2013/11/deleting-all-indexes-and-constraints-in-oracle/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

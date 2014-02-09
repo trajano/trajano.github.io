@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Trajano &#187; eclipse</title>
+	<atom:link href="http://www.trajano.net/tag/eclipse/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.trajano.net</link>
+	<description>Just another WordPress site</description>
+	<lastBuildDate>Wed, 05 Feb 2014 17:45:24 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<item>
+		<title>jaxws-maven-plugin and m2e</title>
+		<link>http://www.trajano.net/2013/12/jaxws-maven-plugin-and-m2e/</link>
+		<comments>http://www.trajano.net/2013/12/jaxws-maven-plugin-and-m2e/#comments</comments>
+		<pubDate>Wed, 11 Dec 2013 17:38:15 +0000</pubDate>
+		<dc:creator><![CDATA[trajano]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[eclipse]]></category>
+		<category><![CDATA[java]]></category>
+		<category><![CDATA[java ee]]></category>
+		<category><![CDATA[jax-ws]]></category>
+		<category><![CDATA[m2e]]></category>
+		<category><![CDATA[maven]]></category>
+
+		<guid isPermaLink="false">http://www.trajano.net/?p=48</guid>
+		<description><![CDATA[Although I did update the jaxws-maven-connector plugin to work with the current versions of jaxws-maven-plugin and Eclipse, as it was abandoned by the original author, I was thinking I could just get Eclipse to use the ones that are available on the official m2e discovery. Fortunately I was successful. I have cross-posted the solution to [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Although I did update the <a href="https://github.com/trajano/jaxws-maven-connector">jaxws-maven-connector</a> plugin to work with the current versions of jaxws-maven-plugin and Eclipse, as it was abandoned by the original author, I was thinking I could just get Eclipse to use the ones that are available on the official m2e discovery.  Fortunately I was successful.<br />
+<span id="more-48"></span><br />
+I have cross-posted the solution to <a href="http://stackoverflow.com/a/20528558/242042">stack overflow</a>  as well.</p>
+<p>The idea is to use buildhelper to load up the generated files, but only execute it on m2e and set the jaxws plugin to execute on m2e.</p>
+<p>Here is an example POM.</p>
+<p></p><pre class="crayon-plain-tag">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+	xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+	&lt;groupId&gt;asdf&lt;/groupId&gt;
+	&lt;artifactId&gt;asdf&lt;/artifactId&gt;
+	&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+	&lt;dependencies&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;javax&lt;/groupId&gt;
+			&lt;artifactId&gt;javaee-api&lt;/artifactId&gt;
+			&lt;version&gt;7.0&lt;/version&gt;
+			&lt;scope&gt;provided&lt;/scope&gt;
+		&lt;/dependency&gt;
+	&lt;/dependencies&gt;
+	&lt;build&gt;
+		&lt;plugins&gt;
+			&lt;plugin&gt;
+				&lt;groupId&gt;org.jvnet.jax-ws-commons&lt;/groupId&gt;
+				&lt;artifactId&gt;jaxws-maven-plugin&lt;/artifactId&gt;
+				&lt;version&gt;2.3.1-b03&lt;/version&gt;
+				&lt;configuration&gt;
+					&lt;wsdlUrls&gt;
+						&lt;wsdlUrl&gt;http://www.webservicex.net/ConvertAcceleration.asmx?WSDL&lt;/wsdlUrl&gt;
+					&lt;/wsdlUrls&gt;
+				&lt;/configuration&gt;
+				&lt;executions&gt;
+					&lt;execution&gt;
+						&lt;id&gt;wsimport&lt;/id&gt;
+						&lt;goals&gt;
+							&lt;goal&gt;wsimport&lt;/goal&gt;
+						&lt;/goals&gt;
+					&lt;/execution&gt;
+				&lt;/executions&gt;
+			&lt;/plugin&gt;
+		&lt;/plugins&gt;
+	&lt;/build&gt;
+	&lt;profiles&gt;
+		&lt;profile&gt;
+			&lt;id&gt;m2e&lt;/id&gt;
+			&lt;activation&gt;
+				&lt;property&gt;
+					&lt;name&gt;m2e.version&lt;/name&gt;
+				&lt;/property&gt;
+			&lt;/activation&gt;
+			&lt;build&gt;
+				&lt;plugins&gt;
+					&lt;plugin&gt;
+						&lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+						&lt;artifactId&gt;build-helper-maven-plugin&lt;/artifactId&gt;
+						&lt;version&gt;1.8&lt;/version&gt;
+						&lt;executions&gt;
+							&lt;execution&gt;
+								&lt;id&gt;attach-wsimport-sources&lt;/id&gt;
+								&lt;phase&gt;generate-sources&lt;/phase&gt;
+								&lt;goals&gt;
+									&lt;goal&gt;add-source&lt;/goal&gt;
+								&lt;/goals&gt;
+								&lt;configuration&gt;
+									&lt;sources&gt;
+										&lt;source&gt;${basedir}/target/generated-sources/wsimport&lt;/source&gt;
+									&lt;/sources&gt;
+								&lt;/configuration&gt;
+							&lt;/execution&gt;
+						&lt;/executions&gt;
+					&lt;/plugin&gt;
+				&lt;/plugins&gt;
+				&lt;pluginManagement&gt;
+					&lt;plugins&gt;
+						&lt;plugin&gt;
+							&lt;groupId&gt;org.eclipse.m2e&lt;/groupId&gt;
+							&lt;artifactId&gt;lifecycle-mapping&lt;/artifactId&gt;
+							&lt;version&gt;1.0.0&lt;/version&gt;
+							&lt;configuration&gt;
+								&lt;lifecycleMappingMetadata&gt;
+									&lt;pluginExecutions&gt;
+										&lt;pluginExecution&gt;
+											&lt;pluginExecutionFilter&gt;
+												&lt;groupId&gt;
+													org.jvnet.jax-ws-commons
+												&lt;/groupId&gt;
+												&lt;artifactId&gt;
+													jaxws-maven-plugin
+												&lt;/artifactId&gt;
+												&lt;versionRange&gt;
+													[2.3.1-b03,)
+												&lt;/versionRange&gt;
+												&lt;goals&gt;
+													&lt;goal&gt;wsimport&lt;/goal&gt;
+												&lt;/goals&gt;
+											&lt;/pluginExecutionFilter&gt;
+											&lt;action&gt;
+												&lt;execute /&gt;
+											&lt;/action&gt;
+										&lt;/pluginExecution&gt;
+									&lt;/pluginExecutions&gt;
+								&lt;/lifecycleMappingMetadata&gt;
+							&lt;/configuration&gt;
+						&lt;/plugin&gt;
+					&lt;/plugins&gt;
+				&lt;/pluginManagement&gt;
+			&lt;/build&gt;
+		&lt;/profile&gt;
+	&lt;/profiles&gt;
+
+&lt;/project&gt;</pre><p></p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.trajano.net/2013/12/jaxws-maven-plugin-and-m2e/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>
