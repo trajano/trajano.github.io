@@ -140,7 +140,7 @@ body.custom-background { background-color: #f5f5f5; }
 As per the DocCenter, you just need to copy the WSDL files into the wsdl folder in custom and reference them in <code>webservices_config.xml</code>. When you do <code>build generated</code>, it will eventually create a <em>wsc-proxy.jar</em> file for you. The problem is that the generated Java files are not put into the <code>.classpath</code>. To fix this, add </p>
 <p></p><!-- Crayon Syntax Highlighter v2.4.3 -->
 
-		<div id="crayon-52f6c61f29bce336183333" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
+		<div id="crayon-52f6cf4399904810106884" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
 		
 			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
 			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
@@ -151,19 +151,19 @@ As per the DocCenter, you just need to copy the WSDL files into the wsdl folder 
 				<table class="crayon-table">
 					<tr class="crayon-row">
 				<td class="crayon-nums " data-settings="show">
-					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6c61f29bce336183333-1">1</div></div>
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6cf4399904810106884-1">1</div></div>
 				</td>
-						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6c61f29bce336183333-1"><span class="crayon-o">&lt;</span><span class="crayon-e">classpathentry </span><span class="crayon-v">kind</span><span class="crayon-o">=</span><span class="crayon-s">"lib"</span><span class="crayon-h"> </span><span class="crayon-v">path</span><span class="crayon-o">=</span><span class="crayon-s">"build/svr/wsc/jav"</span><span class="crayon-h"> </span><span class="crayon-v">sourcepath</span><span class="crayon-o">=</span><span class="crayon-s">"build/svr/wsc/jav"</span><span class="crayon-o">/</span><span class="crayon-o">&gt;</span></div></div></td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6cf4399904810106884-1"><span class="crayon-o">&lt;</span><span class="crayon-e">classpathentry </span><span class="crayon-v">kind</span><span class="crayon-o">=</span><span class="crayon-s">"lib"</span><span class="crayon-h"> </span><span class="crayon-v">path</span><span class="crayon-o">=</span><span class="crayon-s">"build/svr/wsc/jav"</span><span class="crayon-h"> </span><span class="crayon-v">sourcepath</span><span class="crayon-o">=</span><span class="crayon-s">"build/svr/wsc/jav"</span><span class="crayon-o">/</span><span class="crayon-o">&gt;</span></div></div></td>
 					</tr>
 				</table>
 			</div>
 		</div>
-<!-- [Format Time: 0.0006 seconds] -->
+<!-- [Format Time: 0.0005 seconds] -->
 <p></p>
 <p> to your <code>.classpath</code>. Do not add <code>wsc-proxy.jar</code> as Eclipse (with CheckStyle) might lock it and you cannot build without quitting Eclipse first. Now if you have an issue where you have two classes with the same name but in different packages or namespaces then you&#8217;d have a problem. Curam OOTB forces the package to &#8220;wsconnector&#8221; though I am not sure why yet. To fix this, you need to change <em>CuramSDEJ\bin\wsdl2java.xsl</em> and comment out the following line</p>
 <p></p><!-- Crayon Syntax Highlighter v2.4.3 -->
 
-		<div id="crayon-52f6c61f29bdb316903266" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
+		<div id="crayon-52f6cf439990d927514389" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
 		
 			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
 			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
@@ -174,19 +174,19 @@ As per the DocCenter, you just need to copy the WSDL files into the wsdl folder 
 				<table class="crayon-table">
 					<tr class="crayon-row">
 				<td class="crayon-nums " data-settings="show">
-					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6c61f29bdb316903266-1">1</div></div>
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6cf439990d927514389-1">1</div></div>
 				</td>
-						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6c61f29bdb316903266-1"><span class="crayon-o">&lt;</span><span class="crayon-i">xsl</span><span class="crayon-o">:</span><span class="crayon-e">attribute </span><span class="crayon-v">name</span><span class="crayon-o">=</span><span class="crayon-s">"package"</span><span class="crayon-o">&gt;</span><span class="crayon-i">wsconnector</span><span class="crayon-o">&lt;</span><span class="crayon-o">/</span><span class="crayon-i">xsl</span><span class="crayon-o">:</span><span class="crayon-i">attribute</span><span class="crayon-o">&gt;</span></div></div></td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6cf439990d927514389-1"><span class="crayon-o">&lt;</span><span class="crayon-i">xsl</span><span class="crayon-o">:</span><span class="crayon-e">attribute </span><span class="crayon-v">name</span><span class="crayon-o">=</span><span class="crayon-s">"package"</span><span class="crayon-o">&gt;</span><span class="crayon-i">wsconnector</span><span class="crayon-o">&lt;</span><span class="crayon-o">/</span><span class="crayon-i">xsl</span><span class="crayon-o">:</span><span class="crayon-i">attribute</span><span class="crayon-o">&gt;</span></div></div></td>
 					</tr>
 				</table>
 			</div>
 		</div>
-<!-- [Format Time: 0.0006 seconds] -->
+<!-- [Format Time: 0.0005 seconds] -->
 <p></p>
 <p>That should fix that problem. Until you try to do a build on CruiseControl. CruiseControl uses Ant which normally does not actually change your OS directory. So where in it tries to figure out where the NStoPkg.properties file is it might not find it. To fix this open up <code>app_wsconnector.xml</code> and add the bolded text to the following code snippet</p>
 <p></p><!-- Crayon Syntax Highlighter v2.4.3 -->
 
-		<div id="crayon-52f6c61f29be3371611040" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
+		<div id="crayon-52f6cf4399911291345471" class="crayon-syntax crayon-theme-classic crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
 		
 			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
 			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
@@ -197,9 +197,9 @@ name="wsdl2java" classname="curam.util.tools.wsdl.WsdlToJavaAntTask" classpath="
 				<table class="crayon-table">
 					<tr class="crayon-row">
 				<td class="crayon-nums " data-settings="show">
-					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6c61f29be3371611040-1">1</div></div>
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-52f6cf4399911291345471-1">1</div></div>
 				</td>
-						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6c61f29be3371611040-1"><span class="crayon-v">name</span><span class="crayon-o">=</span><span class="crayon-s">"wsdl2java"</span><span class="crayon-h"> </span><span class="crayon-v">classname</span><span class="crayon-o">=</span><span class="crayon-s">"curam.util.tools.wsdl.WsdlToJavaAntTask"</span><span class="crayon-h"> </span><span class="crayon-v">classpath</span><span class="crayon-o">=</span><span class="crayon-s">"${jar.tools}:${jar.axis}:${jar.wsdl4j}: ${jar.jaxrpc}:${jar.commonslogging}:${jar.commonsdiscovery}: ${jar.saaj}:${jar.j2ee}&lt;b&gt;:${SERVER_DIR}&lt;/b&gt;"</span></div></div></td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-52f6cf4399911291345471-1"><span class="crayon-v">name</span><span class="crayon-o">=</span><span class="crayon-s">"wsdl2java"</span><span class="crayon-h"> </span><span class="crayon-v">classname</span><span class="crayon-o">=</span><span class="crayon-s">"curam.util.tools.wsdl.WsdlToJavaAntTask"</span><span class="crayon-h"> </span><span class="crayon-v">classpath</span><span class="crayon-o">=</span><span class="crayon-s">"${jar.tools}:${jar.axis}:${jar.wsdl4j}: ${jar.jaxrpc}:${jar.commonslogging}:${jar.commonsdiscovery}: ${jar.saaj}:${jar.j2ee}&lt;b&gt;:${SERVER_DIR}&lt;/b&gt;"</span></div></div></td>
 					</tr>
 				</table>
 			</div>

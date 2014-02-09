@@ -1,0 +1,173 @@
+ /*version 1.9*/
+	.amazon-product-table {
+		border-collapse : collapse;
+		border : 0 none !important ;
+		width : 100%;
+	}
+	.amazon-product-table td {
+		border : 0 none !important ;
+		padding : 0 !important ;
+	}
+	div.amazon-image-wrapper {
+		text-align : center;
+		width : 170px;
+		float : left;
+		padding : 0 10px 0 10px;
+	}
+	.amazon-product-table hr {
+		display : block;
+	}
+	span.amazon-tiny {
+		font-size : 10px;
+	}
+	div.amazon-buying {
+		text-align : left;
+	}
+	h2.amazon-asin-title {
+		margin : 0 0 5px 0;
+		line-height : 1.25;
+		font-size : 10pt;
+	}
+	span.asin-title {
+		text-align : left;
+	}
+	span.amazon-author {
+		color : #666;
+		font-size : 12px;
+	}
+	span.amazon-starring-label {
+		color : #999;
+		font-size : 10px;
+	}
+	span.amazon-director-label {
+		color : #999;
+		font-size : 10px;
+	}
+	span.amazon-rating-label {
+		color : #999;
+		font-size : 10px;
+	}
+	span.amazon-starring {
+		color : #666;
+		font-size : 12px;
+	}
+	.amazon-manufacturer{
+		color : #666;
+		font-size : 12px;
+	}
+	.amazon-ESRB{
+		color : #666;
+		font-size : 12px;
+	}
+	.amazon-feature{
+		color : #666;
+		font-size : 12px;
+	}
+	.amazon-platform{
+		color : #666;
+		font-size : 12px;
+	}
+	.amazon-system{
+		color : #666;
+		font-size : 12px;
+	}
+	span.amazon-starring {
+		color : #666;
+		font-size : 12px;
+	}
+	span.amazon-director {
+		color : #666;
+		font-size : 12px;
+	}
+	span.amazon-rating {
+		color : #666;
+		font-size : 12px;
+	}
+	.amazon-product-price {
+		border-collapse : collapse;
+		border : 0 none;
+		/*width : auto;*/
+		padding : 0 !important ;
+	}
+	.amazon-product-price a img.amazon-image {
+		background-color : transparent !important ;
+		border : 0 none !important ;
+	}
+	.amazon-post-text {
+		text-align : left;
+		padding : 0 !important ;
+	}
+	.appip-label{
+		color : #666;
+	}
+	.amazon-list-price-label {
+		font-size : 10px;
+		color : #666;
+		text-align : left;
+		width : auto;
+	}
+	.amazon-list-price {
+		width : auto;
+		text-decoration : line-through;
+		text-align : left;
+	}
+	.amazon-price-label {
+		font-size : 10px;
+		color : #666;
+		text-align : left;
+		width : auto;
+	}
+	.amazon-price {
+		font-size : 14px;
+		color : #800000;
+		font-weight : bold;
+		text-align : left;
+	}
+	.amazon-new-label {
+		font-size : 10px;
+		color : #666;
+		text-align : left;
+		width : auto;
+	}
+	.amazon-new {
+		font-size : 14px;
+		color : #800000;
+		text-align : left;
+		font-weight : bold;
+	}
+	.amazon-used-label {
+		font-size : 10px;
+		color : #666;
+		text-align : left;
+		width : auto;
+	}
+	.amazon-used {
+		color : #666;
+		text-align : left;
+	}
+	div.amazon-dates {
+		padding : 0 !important ;
+		text-align : left;
+	}
+	div.amazon-dates span.amazon-preorder {
+		font-weight : bold;
+		color : #d16601;
+		text-align : left;
+	}
+	div.amazon-dates span.amazon-release-date {
+		font-size : 10px;
+		color : #666;
+		text-align : left;
+	}
+	span.instock {
+		font-size:8pt;
+		color:#008000;
+	}
+	span.outofstock {
+		font-size:8pt;
+		color:#800000;
+	}
+	div.appip-multi-divider {
+		margin:10px 0;
+	}
+	
